@@ -25,7 +25,19 @@ $name = "Mantas";
 $surname = "Kryževičius";
 
 function getNickName($name, $surName) {
-    return strtolower(substr($name, 0, 3).substr($surName, 0, 3));
+    return strtolower(substr($name, 0, 3).substr($surName, 0, 3)).mt_rand(1, 100);
 }
 
 echo getNickName($name, $surname);
+
+
+
+$title = "Musu kazkokia tai antraste";
+echo getSlug($title);
+/**
+ * @param $title //generate slug from title
+ * @return string //return slug
+ */
+function getSlug($title) {
+    return strtolower(str_replace(" ", "-", $title));
+}
