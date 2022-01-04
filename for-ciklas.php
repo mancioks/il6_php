@@ -10,7 +10,7 @@ for($y = 0; $y < 10; $y++){
                 echo '#';
             }
             else {
-                echo '.';
+                echo '. ';
             }
         }
     }
