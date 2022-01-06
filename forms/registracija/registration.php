@@ -13,6 +13,7 @@ $email = clearEmail($email);
 
 if(isPasswordValid($password1, $password2) && isEmailValid($email)) {
     $data = [];
+    $password1 = hashPassword($password1);
     $data[] = [$firstName, $lastName, $email, $password1];
     writeToCsv($data, 'users.csv');
 }
