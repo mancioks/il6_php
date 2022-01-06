@@ -32,10 +32,17 @@ function readFromCsv($fileName) {
 
     while (!feof($fh)) {
         $line = fgetcsv($fh);
-        $data[] = $line;
+        if(!empty($line)) {
+            $data[] = $line;
+        }
     }
 
     fclose($fh);
     return $data;
 }
 
+function debug($data) {
+    echo "<pre>";
+    var_dump($data);
+    die();
+}
