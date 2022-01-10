@@ -23,7 +23,7 @@
         <input type="password" name="password1" placeholder="Slaptažodis"><br>
         <input type="password" name="password2" placeholder="Pakartoti slaptažodį"><br>
         <label for="agree_terms">Sutinku su registracijos taisyklėmis</label>
-        <input type="checkbox" name="agree_terms" value="1" id="agree_terms"><br>
+        <input type="checkbox" name="agree_terms" id="agree_terms"><br>
         <input type="submit" name="submit" value="Registruotis">
     </form>
 </body>

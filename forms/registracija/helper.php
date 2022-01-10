@@ -1,5 +1,9 @@
 <?php
 
+const EMAIL_FIELD_KEY = 2;
+const NICKNAME_FIELD_KEY = 3;
+const PASSWORD_FIELD_KEY = 4;
+
 function clearEmail($email) {
     return trim(strtolower($email));
 }
@@ -45,4 +49,17 @@ function debug($data) {
     echo "<pre>";
     var_dump($data);
     die();
+}
+
+function isValueUniq($users, $value, $key) {
+    foreach ($users as $user) {
+        if($user[$key] === $value) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function generateNickName($firstName, $lastName) {
+    return strtolower(substr($firstName, 0, 3).substr($lastName, 0, 3));
 }
