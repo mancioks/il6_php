@@ -68,3 +68,13 @@ function getProductById($id) {
     }
     return null;
 }
+
+function addProduct($product){
+    $file = fopen("products10-03-2021.csv", 'a');
+
+    foreach ($product as $element) {
+        fputcsv($file, $element);
+    }
+
+    fclose($file);
+}
