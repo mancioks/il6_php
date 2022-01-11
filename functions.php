@@ -29,11 +29,11 @@ function clearEmail($email){
 //$name = "Mantas";
 //$surname = "Kryževičius";
 //
-//function getNickName($name, $surName) {
-//    return strtolower(substr($name, 0, 3).substr($surName, 0, 3)).mt_rand(1, 100);
-//}
-//
-//echo getNickName($name, $surname);
+function getNickName($name, $surName) {
+    return strtolower(substr($name, 0, 3).substr($surName, 0, 3)).mt_rand(1, 100);
+}
+
+echo getNickName($name, $surname);
 //
 
 

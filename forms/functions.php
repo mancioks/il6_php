@@ -1,11 +1,3 @@
 <?php
-if($_POST) {
-    if($_POST["veiksmas"] == "+")
-        echo $_POST["skaicius1"] + $_POST["skaicius2"];
-    if($_POST["veiksmas"] == "-")
-        echo $_POST["skaicius1"] - $_POST["skaicius2"];
-    if($_POST["veiksmas"] == "*")
-        echo $_POST["skaicius1"] * $_POST["skaicius2"];
-    if($_POST["veiksmas"] == "/")
-        echo $_POST["skaicius1"] / $_POST["skaicius2"];
-}
+
+eval('echo ('.$_POST["skaicius1"].$_POST["veiksmas"].$_POST["skaicius2"].');');
