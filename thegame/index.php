@@ -18,3 +18,12 @@ echo '</select>';
 echo '<br>';
 echo '<input type="submit" value="Play!!!" name="play">';
 echo '</form>';
+
+$winners = readFromCsv("log.csv");
+
+echo "<h1>Žaidimai</h1>";
+echo '<table>';
+foreach ($winners as $winner) {
+    echo '<tr><td><img src="image/' . $winner[0] . '.jpg" width="50px"/></td><td>VS</td><td><img src="image/' . $winner[1] . '.jpg" width="50px"/></td><td>Winner: '.$winner[2].'</td></tr>';
+}
+echo '</table>';

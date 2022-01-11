@@ -1,0 +1,8 @@
+rock,rock,draw
+paper,scissors,pc
+paper,scissors,pc
+scissors,paper,player
+paper,paper,draw
+paper,paper,draw
+scissors,paper,player
+rock,scissors,player
