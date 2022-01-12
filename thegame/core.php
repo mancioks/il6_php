@@ -28,6 +28,42 @@ function readFromCsv($fileName) {
     return $data;
 }
 
+function debug($data) {
+    echo '<pre>';
+    var_dump($data);
+    die();
+}
+
+function getLast($data, $howMuch) {
+    $dataCount = count($data);
+
+    if($dataCount < $howMuch) {
+        $howMuch = $dataCount;
+    }
+
+    $last = [];
+
+    for($x = $dataCount - 1; $x > $dataCount - $howMuch - 1; $x--) {
+        $last[] = $data[$x];
+    }
+
+    return $last;
+}
+
+function winStatistics($data) {
+    $winners = [
+        'pc' => 0,
+        'player' => 0,
+        'draw' => 0
+    ];
+
+    foreach ($data as $line) {
+        $winners[$line[2]]++;
+    }
+
+    return $winners;
+}
+
 $toolsArray = [
     0 => TOOL_ROCK,
     1 => TOOL_PAPER,
