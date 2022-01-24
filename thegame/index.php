@@ -15,7 +15,6 @@ foreach ($tools as $key => $tool) {
     echo '<option value="' . $key . '">' . $tool . '</option>';
 }
 echo '</select>';
-echo '<br>';
 echo '<input type="submit" value="Play!!!" name="play">';
 echo '</form>';
 
