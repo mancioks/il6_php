@@ -49,7 +49,7 @@ class DBHelper
     public function insert($table, $data) {
         $this->sql .= "INSERT INTO ". $table . " (".implode(", ", array_keys($data)).") VALUES ('".implode("', '", $data)."')";
 
-        echo $this->sql;
+        return $this;
     }
 
     public function update() {

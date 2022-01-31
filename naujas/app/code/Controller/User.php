@@ -14,19 +14,15 @@ class User
     public function register() {
         $form = new FormHelper('user/create', 'POST');
 
-        $db = new DBHelper();
-        $data = [
-            'name'=>'vardas',
-            'last_name'=>'pavarde',
-            'tel'=>'866666666'
-        ];
-
-        $db->insert("tablas", $data);
-
         $form->input([
             "name"=>"name",
             "type"=>"text",
             "placeholder"=>"Vardas"
+        ]);
+        $form->input([
+            "name"=>"last_name",
+            "type"=>"text",
+            "placeholder"=>"Last name"
         ]);
         $form->input([
             "name"=>"email",
@@ -87,7 +83,14 @@ class User
         //echo $isEmailUniq;
 
         if($passMatch && $isEmailValid && $isEmailUniq) {
+            $user = new UserModel();
 
+            $user->setName($_POST["name"]);
+            $user->setLastName($_POST["name"]);
+            $user->setEmail($_POST["email"]);
+            $user->setPassword($_POST["password"]);
+
+            $user->save();
         }
 
         print_r($_POST);
