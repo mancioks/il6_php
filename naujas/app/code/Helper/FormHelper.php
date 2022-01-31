@@ -1,21 +1,23 @@
 <?php
 
+namespace Helper;
+
 class FormHelper
 {
     private $form;
 
     public function __construct($action, $method)
     {
-        $this->form = '<form action="'.$action.'" method="'.$method.'">';
+        $this->form = '<form action="'. BASE_URL . $action.'" method="'.$method.'">';
     }
 
     public function input($data)
     {
         $this->form .= '<input ';
         foreach ($data as $attribute => $value) {
-            $this->form .= $attribute . ' = '. $value. ' ';
+            $this->form .= $attribute . ' = "'. $value. '" ';
         }
-        $this->form .= ' >';
+        $this->form .= ' ><br>';
     }
 
     public function textArea($name, $placeholder)

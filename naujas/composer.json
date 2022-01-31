@@ -1,0 +1,18 @@
+{
+    "name": "mantas/skelbimai",
+    "description": "Skelbimu portalas",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mantas",
+            "email": "mantas@lzt.lt"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "app/code"
+        }
+    },
+    "require": {}
+}

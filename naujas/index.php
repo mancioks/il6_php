@@ -1,26 +1,41 @@
 <?php
 
-include 'FormHelper.php';
+include 'vendor/autoload.php';
+include 'config.php';
 
-$data = [
-    'type'=>'text',
-    'name'=>'name',
-    'placeholder'=>'vardas'
-];
-$dataSelect = [
-    "name"=>"select",
-    "options" => [
-        "a"=>"a",
-        "b"=>"b"
-    ]
-];
+//use Controller;
 
-$form = new FormHelper('register.php', 'post');
-$form->input($data);
-$form->input($data);
+if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/') {
+    $path = trim($_SERVER['PATH_INFO'], '/');
+    $path = explode('/', $path);
 
-$form->textArea("vardas", "holderis");
-$form->select($dataSelect);
+    $class = ucfirst($path[0]);
+    $method = $path[1];
 
 
-echo $form->getForm();
+    $class = 'Controller\\'.$class;
+    if(class_exists($class)) {
+        $object = new $class();
+
+        if(method_exists($object, $method)) {
+            if(isset($path[2])) {
+                $object->$method($path[2]);
+            }
+            else {
+                $object->$method();
+            }
+
+        }
+        else {
+            echo "404";
+        }
+
+    }
+    else {
+        echo "404";
+    }
+
+}
+else {
+    echo "home page";
+}
