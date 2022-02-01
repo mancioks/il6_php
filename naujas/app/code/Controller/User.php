@@ -4,6 +4,7 @@ namespace Controller;
 use Helper\DBHelper;
 use Helper\FormHelper;
 use Helper\Validator;
+use Model\City;
 use Model\User as UserModel;
 
 class User
@@ -13,6 +14,14 @@ class User
     }
     public function register() {
         $form = new FormHelper('user/create', 'POST');
+
+        $cities = City::getList();
+        $dataToSelect["name"] = "city_id";
+        $dataToSelect["options"] = [];
+
+        foreach ($cities as $value) {
+            $dataToSelect["options"][$value["id"]] = $value["name"];
+        }
 
         $form->input([
             "name"=>"name",
@@ -30,6 +39,11 @@ class User
             "placeholder"=>"Email"
         ]);
         $form->input([
+            "name"=>"phone",
+            "type"=>"text",
+            "placeholder"=>"Telefonas"
+        ]);
+        $form->input([
             "name"=>"password",
             "type"=>"password",
             "placeholder"=>"Password"
@@ -39,6 +53,8 @@ class User
             "type"=>"password",
             "placeholder"=>"Password 2"
         ]);
+        $form->select($dataToSelect);
+
         $form->input([
             "name"=>"create",
             "type"=>"submit",
@@ -46,6 +62,9 @@ class User
         ]);
 
         echo $form->getForm();
+
+        //$db = new DBHelper();
+        //$db->update("users", ["name"=>"llloooaaa", "lastname"=>"nauja pavarde"])->where('id', 5)->exec();
 
         echo 'registracija';
     }
@@ -74,6 +93,23 @@ class User
         echo 'prisijungimas';
     }
 
+    public function check() {
+        $email = $_POST["email"];
+        $password = md5($_POST["password"]);
+
+        $userId = UserModel::checkLoginCredentials($email, $password);
+
+        if($userId) {
+            $user = new UserModel();
+            $user->load($userId);
+
+            echo "<pre>";
+            print_r($user);
+        } else {
+            echo "blogai";
+        }
+    }
+
     public function create()
     {
         $passMatch = Validator::checkPassword($_POST['password'], $_POST['password2']);
@@ -88,7 +124,9 @@ class User
             $user->setName($_POST["name"]);
             $user->setLastName($_POST["name"]);
             $user->setEmail($_POST["email"]);
-            $user->setPassword($_POST["password"]);
+            $user->setPhone($_POST["phone"]);
+            $user->setPassword(md5($_POST["password"]));
+            $user->setCityId($_POST["city_id"]);
 
             $user->save();
         }

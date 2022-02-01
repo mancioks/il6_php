@@ -32,7 +32,7 @@ class FormHelper
             $this->form .= '<option value="'.$value.'">'.$option.'</option>';
         }
 
-        $this->form .= '</select>';
+        $this->form .= '</select><br>';
     }
 
     public function getForm()

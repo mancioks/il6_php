@@ -1,7 +1,7 @@
 <?php
 namespace Helper;
 
-use PDO;
+use \PDO;
 
 class DBHelper
 {
@@ -12,10 +12,10 @@ class DBHelper
         try {
             $this->sql = '';
 
-            $this->conn = new PDO("mysql:host=".SERVERNAME.";dbname=".DB_NAME, DB_USER, DB_PASS);
+            $this->conn = new \PDO("mysql:host=".SERVERNAME.";dbname=".DB_NAME, DB_USER, DB_PASS);
             // set the PDO error mode to exception
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $e) {
+            $this->conn->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        } catch(\PDOException $e) {
 
         }
     }
@@ -32,7 +32,17 @@ class DBHelper
     }
 
     public function where($field, $value, $operator = '=') {
-        $this->sql .= 'WHERE '. $field.$operator.'"'.$value.'"';
+        $this->sql .= 'WHERE '. $field.$operator.'"'.$value.'" ';
+        return $this;
+    }
+
+    public function andWhere($field, $value, $operator = '=') {
+        $this->sql .= 'AND '. $field.$operator.'"'.$value.'" ';
+        return $this;
+    }
+
+    public function orWhere($field, $value, $operator = '=') {
+        $this->sql .= 'OR '. $field.$operator.'"'.$value.'" ';
         return $this;
     }
 
@@ -52,8 +62,16 @@ class DBHelper
         return $this;
     }
 
-    public function update() {
+    public function update($table, $data) {
+        $update = "";
+        foreach($data as $column => $value) {
+            $update .= $column." = '".$value."', ";
+        }
+        $update = trim($update, ", ");
 
+        $this->sql .= "UPDATE ".$table." SET ".$update." ";
+
+        return $this;
     }
 
     public function exec() {
@@ -63,8 +81,17 @@ class DBHelper
 
     public function getOne() {
         $rez = $this->conn->query($this->sql);
-        $data = $rez->fetch_all();
+        $data = $rez->fetchAll();
 
-        return $data[0];
+        if(!empty($data)) {
+            return $data[0];
+        }
+        else {
+            return false;
+        }
+    }
+
+    public function limit($number) {
+        $this->sql .= " LIMIT ".$number;
     }
 }

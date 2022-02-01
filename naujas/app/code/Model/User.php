@@ -121,6 +121,7 @@ class User
         $this->lastName = $data['lastname'];
         $this->email = $data['email'];
         $this->password = $data['password'];
+        $this->phone = $data['phone'];
         $this->cityId = $data['city_id'];
     }
 
@@ -132,6 +133,13 @@ class User
 
         return empty($rez);
         //return $rez;
+    }
+
+    public static function checkLoginCredentials($email, $password) {
+        $db = new DBHelper();
+        $rez = $db->select("id")->from("users")->where("email", $email)->andWhere("password", $password)->getOne();
+
+        return isset($rez["id"]) ? $rez["id"] : false;
     }
 
 
