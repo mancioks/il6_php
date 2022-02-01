@@ -15,14 +15,6 @@ class User
     public function register() {
         $form = new FormHelper('user/create', 'POST');
 
-        $cities = City::getList();
-        $dataToSelect["name"] = "city_id";
-        $dataToSelect["options"] = [];
-
-        foreach ($cities as $value) {
-            $dataToSelect["options"][$value["id"]] = $value["name"];
-        }
-
         $form->input([
             "name"=>"name",
             "type"=>"text",
@@ -53,7 +45,10 @@ class User
             "type"=>"password",
             "placeholder"=>"Password 2"
         ]);
-        $form->select($dataToSelect);
+        $form->select([
+            "name" => "city_id",
+            "options" => City::getList()
+        ]);
 
         $form->input([
             "name"=>"create",

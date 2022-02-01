@@ -51,10 +51,17 @@ class City
         $this->name = $data['name'];
     }
 
+    private static function formatList($data){
+        $formatted = [];
+        foreach ($data as $value) {
+            $formatted[$value["id"]] = $value["name"];
+        }
+
+        return $formatted;
+    }
+
     public static function getList() {
         $db = new DBHelper();
-        $rez = $db->select()->from("cities")->get();
-
-        return $rez;
+        return self::formatList($db->select()->from("cities")->get());
     }
 }
