@@ -3,6 +3,7 @@
 namespace Model;
 
 use Helper\DBHelper;
+use Model\City;
 
 class User
 {
@@ -13,6 +14,7 @@ class User
     private $password;
     private $phone;
     private $cityId;
+    private $city;
 
     public function getId()
     {
@@ -74,6 +76,11 @@ class User
         return $this->cityId;
     }
 
+    public function getCity()
+    {
+        return $this->city;
+    }
+
     public function setCityId($cityId)
     {
         $this->cityId = $cityId;
@@ -133,6 +140,11 @@ class User
         $this->password = $data['password'];
         $this->phone = $data['phone'];
         $this->cityId = $data['city_id'];
+
+        $city = new City();
+        $this->city = $city->load($this->cityId);
+
+        return $this;
     }
 
     public static function emailUniq($email)

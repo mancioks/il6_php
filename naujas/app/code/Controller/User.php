@@ -1,6 +1,7 @@
 <?php
 
 namespace Controller;
+
 use Helper\DBHelper;
 use Helper\FormHelper;
 use Helper\Validator;
@@ -9,51 +10,62 @@ use Model\User as UserModel;
 
 class User
 {
-    public function show($id) {
-        echo 'User controller ID '.$id;
+    public function show($id)
+    {
+        echo 'User controller ID ' . $id;
     }
-    public function register() {
+
+    public function register()
+    {
         $form = new FormHelper('user/create', 'POST');
 
         $form->input([
-            "name"=>"name",
-            "type"=>"text",
-            "placeholder"=>"Vardas"
+            "name" => "name",
+            "type" => "text",
+            "placeholder" => "Vardas"
         ]);
         $form->input([
-            "name"=>"last_name",
-            "type"=>"text",
-            "placeholder"=>"Last name"
+            "name" => "last_name",
+            "type" => "text",
+            "placeholder" => "Last name"
         ]);
         $form->input([
-            "name"=>"email",
-            "type"=>"text",
-            "placeholder"=>"Email"
+            "name" => "email",
+            "type" => "text",
+            "placeholder" => "Email"
         ]);
         $form->input([
-            "name"=>"phone",
-            "type"=>"text",
-            "placeholder"=>"Telefonas"
+            "name" => "phone",
+            "type" => "text",
+            "placeholder" => "Telefonas"
         ]);
         $form->input([
-            "name"=>"password",
-            "type"=>"password",
-            "placeholder"=>"Password"
+            "name" => "password",
+            "type" => "password",
+            "placeholder" => "Password"
         ]);
         $form->input([
-            "name"=>"password2",
-            "type"=>"password",
-            "placeholder"=>"Password 2"
+            "name" => "password2",
+            "type" => "password",
+            "placeholder" => "Password 2"
         ]);
+
+        $cities = City::getCities();
+
+        $options = [];
+        foreach ($cities as $city) {
+            $options[$city->getId()] = $city->getName();
+        }
+
         $form->select([
             "name" => "city_id",
-            "options" => City::getList()
+            "options" => $options
         ]);
 
         $form->input([
-            "name"=>"create",
-            "type"=>"submit",
-            "value"=>"Registruotis"
+            "name" => "create",
+            "type" => "submit",
+            "value" => "Registruotis"
         ]);
 
         echo $form->getForm();
@@ -64,23 +76,24 @@ class User
         echo 'registracija';
     }
 
-    public function login() {
+    public function login()
+    {
         $form = new FormHelper('user/check', 'POST');
 
         $form->input([
-            "name"=>"email",
-            "type"=>"text",
-            "placeholder"=>"Email"
+            "name" => "email",
+            "type" => "text",
+            "placeholder" => "Email"
         ]);
         $form->input([
-            "name"=>"password",
-            "type"=>"password",
-            "placeholder"=>"Password"
+            "name" => "password",
+            "type" => "password",
+            "placeholder" => "Password"
         ]);
         $form->input([
-            "name"=>"login",
-            "type"=>"submit",
-            "value"=>"Prisijungti"
+            "name" => "login",
+            "type" => "submit",
+            "value" => "Prisijungti"
         ]);
 
         echo $form->getForm();
@@ -88,21 +101,34 @@ class User
         echo 'prisijungimas';
     }
 
-    public function check() {
+    public function check()
+    {
         $email = $_POST["email"];
         $password = md5($_POST["password"]);
 
         $userId = UserModel::checkLoginCredentials($email, $password);
 
-        if($userId) {
+        if ($userId) {
             $user = new UserModel();
             $user->load($userId);
 
+            //echo $user->getCity()->getName();
+
+            $_SESSION["logged"] = true;
+            $_SESSION["user_id"] = $userId;
+            $_SESSION["user"] = $user;
+
             echo "<pre>";
             print_r($user);
+
         } else {
             echo "blogai";
         }
+    }
+
+    public function logout()
+    {
+        session_destroy();
     }
 
     public function create()
@@ -113,7 +139,7 @@ class User
 
         //echo $isEmailUniq;
 
-        if($passMatch && $isEmailValid && $isEmailUniq) {
+        if ($passMatch && $isEmailValid && $isEmailUniq) {
             $user = new UserModel();
 
             $user->setName($_POST["name"]);

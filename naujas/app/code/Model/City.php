@@ -59,6 +59,8 @@ class City
 
         $this->id = $data['id'];
         $this->name = $data['name'];
+
+        return $this;
     }
 
     private static function formatList($data){
@@ -70,8 +72,24 @@ class City
         return $formatted;
     }
 
-    public static function getList() {
+    /*public static function getList() {
         $db = new DBHelper();
         return self::formatList($db->select()->from("cities")->get());
+    }*/
+
+    public static function getCities() {
+        $db = new DBHelper();
+        $data = $db->select()->from("cities")->get();
+
+        $cities = [];
+
+        foreach($data as $element) {
+            $city = new City();
+            $city->load($element["id"]);
+
+            $cities[] = $city;
+        }
+
+        return $cities;
     }
 }
