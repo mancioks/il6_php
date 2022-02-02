@@ -24,6 +24,15 @@ class City
         $this->name = $name;
     }
 
+    public function save()
+    {
+        if (!isset($this->id)) {
+            $this->create();
+        } else {
+            $this->update();
+        }
+    }
+
     private function create()
     {
         $data = [
@@ -35,7 +44,8 @@ class City
     }
 
     private function update() {
-
+        $db = new DBHelper();
+        $db->update('cities', ["name" => $this->name])->where('id', $this->id)->exec();
     }
 
     public function delete() {

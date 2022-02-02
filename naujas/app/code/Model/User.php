@@ -104,7 +104,17 @@ class User
     }
 
     private function update() {
+        $data = [
+            'name' => $this->name,
+            'lastname' => $this->lastName,
+            'email' => $this->email,
+            'password' => $this->password,
+            'phone' => $this->phone,
+            'city_id' => $this->cityId
+        ];
 
+        $db = new DBHelper();
+        $db->update('users', $data)->where('id', $this->id)->exec();
     }
 
     public function delete() {
