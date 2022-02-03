@@ -22,14 +22,22 @@ class FormHelper
 
     public function textArea($name, $placeholder)
     {
-        $this->form .= '<textarea name="'.$name.'">'.$placeholder.'</textarea>';
+        $this->form .= '<textarea name="'.$name.'">'.$placeholder.'</textarea><br>';
     }
 
-    public  function select($data) {
+    public function select($data) {
         $this->form .= '<select name="'.$data["name"].'">';
 
         foreach ($data["options"] as $value => $option) {
-            $this->form .= '<option value="'.$value.'">'.$option.'</option>';
+            $this->form .= '<option ';
+
+            if(isset($data["selected"])) {
+                if($data["selected"] == $value) {
+                    $this->form .= "selected ";
+                }
+            }
+
+            $this->form .= 'value="'.$value.'">'.$option.'</option>';
         }
 
         $this->form .= '</select><br>';
