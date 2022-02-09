@@ -8,8 +8,9 @@ use Helper\Validator;
 use Model\City;
 use Helper\Url;
 use Model\User as UserModel;
+use Core\AbstractController;
 
-class User
+class User extends AbstractController
 {
     public function show($id)
     {
@@ -69,12 +70,9 @@ class User
             "value" => "Registruotis"
         ]);
 
-        echo $form->getForm();
+        $this->data['form'] = $form->getForm();
 
-        //$db = new DBHelper();
-        //$db->update("users", ["name"=>"llloooaaa", "lastname"=>"nauja pavarde"])->where('id', 5)->exec();
-
-        echo 'registracija';
+        $this->render("user/register");
     }
 
     public function login()
@@ -97,9 +95,9 @@ class User
             "value" => "Prisijungti"
         ]);
 
-        echo $form->getForm();
+        $this->data['form'] = $form->getForm();
 
-        echo 'prisijungimas';
+        $this->render("user/login");
     }
 
     public function check()
@@ -109,9 +107,14 @@ class User
 
         $userId = UserModel::checkLoginCredentials($email, $password);
 
+        if(!UserModel::canLogin($email)) {
+            Url::redirect('user/login');
+        }
+
         if ($userId) {
             $user = new UserModel();
             $user->load($userId);
+            $user->setIncorrectTries(0);
 
             //echo $user->getCity()->getName();
 
@@ -121,6 +124,19 @@ class User
 
             Url::redirect('');
         } else {
+            if(UserModel::isUserExists($email)) {
+                $user = new UserModel();
+                $user->loadUserByEmail($email);
+
+                $user->setIncorrectTries($user->getIncorrectTries() + 1);
+
+                if($user->getIncorrectTries() >= 5) {
+                    $user->setIncorrectTries(0);
+                    $user->setActive(0);
+                }
+
+                $user->save();
+            }
             Url::redirect('user/login');
         }
     }
@@ -191,7 +207,9 @@ class User
             "value" => "Pakeisti"
         ]);
 
-        echo $form->getForm();
+        $this->data['form'] = $form->getForm();
+
+        $this->render("user/edit");
     }
 
     public function logout()
@@ -243,12 +261,12 @@ class User
         $user->setPhone($_POST["phone"]);
         $user->setCityId($_POST["city_id"]);
 
-        if(!empty($_POST["password"]) && Validator::checkPassword($_POST["password"], $_POST["password2"])) {
+        if (!empty($_POST["password"]) && Validator::checkPassword($_POST["password"], $_POST["password2"])) {
             $user->setPassword(md5($_POST["password"]));
         }
 
-        if($user->getEmail() != $_POST["email"]) {
-            if(Validator::checkEmail($_POST["email"]) && UserModel::emailUniq($_POST["email"])) {
+        if ($user->getEmail() != $_POST["email"]) {
+            if (Validator::checkEmail($_POST["email"]) && UserModel::emailUniq($_POST["email"])) {
                 $user->setEmail($_POST["email"]);
             }
         }
@@ -256,5 +274,11 @@ class User
         $user->save();
 
         Url::redirect('user/edit');
+    }
+
+    public function all()
+    {
+        $this->data['users'] = UserModel::getAll();
+        $this->render("user/list");
     }
 }

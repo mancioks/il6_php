@@ -3,6 +3,7 @@
 namespace Model;
 
 use Helper\DBHelper;
+use Helper\Validator;
 use Model\City;
 
 class User
@@ -15,6 +16,8 @@ class User
     private $phone;
     private $cityId;
     private $city;
+    private $active;
+    private $incorrectTries;
 
     public function getId()
     {
@@ -86,6 +89,25 @@ class User
         $this->cityId = $cityId;
     }
 
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+    public function setIncorrectTries($incorrectTries)
+    {
+        $this->incorrectTries = $incorrectTries;
+    }
+
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    public function getIncorrectTries()
+    {
+        return $this->incorrectTries;
+    }
+
     public function save()
     {
         if (!isset($this->id)) {
@@ -103,7 +125,9 @@ class User
             'email' => $this->email,
             'password' => $this->password,
             'phone' => $this->phone,
-            'city_id' => $this->cityId
+            'city_id' => $this->cityId,
+            'active' => 1,
+            'incorrect_tries' => 0
         ];
 
         $db = new DBHelper();
@@ -117,7 +141,9 @@ class User
             'email' => $this->email,
             'password' => $this->password,
             'phone' => $this->phone,
-            'city_id' => $this->cityId
+            'city_id' => $this->cityId,
+            'active' => $this->active,
+            'incorrect_tries' => $this->incorrectTries
         ];
 
         $db = new DBHelper();
@@ -140,6 +166,8 @@ class User
         $this->password = $data['password'];
         $this->phone = $data['phone'];
         $this->cityId = $data['city_id'];
+        $this->active = $data['active'];
+        $this->incorrectTries = $data['incorrect_tries'];
 
         $city = new City();
         $this->city = $city->load($this->cityId);
@@ -164,5 +192,43 @@ class User
         return isset($rez["id"]) ? $rez["id"] : false;
     }
 
+    public static function getAll()
+    {
+        $db = new DBHelper();
 
+        $data = $db->select('id')->from("users")->get();
+
+        $users = [];
+
+        foreach ($data as $element) {
+            $user = new User();
+            $user->load($element["id"]);
+            $users[] = $user;
+        }
+
+        return $users;
+    }
+
+    public static function canLogin($userEmail)
+    {
+        $db = new DBHelper();
+        $data = $db->select("active")->from("users")->where("email", $userEmail)->getOne();
+
+        return isset($data["active"]) && $data["active"] == 1;
+    }
+
+    public static function isUserExists($userEmail)
+    {
+        return !(User::emailUniq($userEmail));
+    }
+
+    public function loadUserByEmail($email)
+    {
+        $db = new DBHelper();
+        $user = $db->select("id")->from("users")->where("email", $email)->getOne();
+
+        $this->load($user["id"]);
+
+        return $this;
+    }
 }

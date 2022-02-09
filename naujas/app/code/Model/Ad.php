@@ -15,6 +15,8 @@ class Ad
     private $year;
     private $typeId;
     private $userId;
+    private $imageUrl;
+    private $active;
 
     /**
      * @return mixed
@@ -151,10 +153,26 @@ class Ad
     {
         $this->userId = $userId;
     }
+    public function setImageUrl($imageUrl)
+    {
+        $this->imageUrl = $imageUrl;
+    }
+    public function getImageUrl()
+    {
+        return $this->imageUrl;
+    }
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+    public function getActive()
+    {
+        return $this->active;
+    }
 
     public function load($id) {
         $db = new DBHelper();
-        $data = $db->select()->from("ads")->getOne();
+        $data = $db->select()->from("ads")->where("id", $id)->getOne();
 
         $this->id = $data["id"];
         $this->title = $data["title"];
@@ -165,6 +183,8 @@ class Ad
         $this->year = $data["year"];
         $this->typeId = $data["type_id"];
         $this->userId = $data["user_id"];
+        $this->imageUrl = $data["image_url"];
+        $this->active = $data["active"];
     }
 
     public function save() {
@@ -186,7 +206,9 @@ class Ad
             'price'=>$this->price,
             'year'=>$this->year,
             'type_id'=>$this->typeId,
-            'user_id'=>$this->userId
+            'user_id'=>$this->userId,
+            'image_url'=>$this->imageUrl,
+            'active'=>$this->active
         ];
 
         $db->update("ads", $data)->where('id', $this->id)->exec();
@@ -203,9 +225,26 @@ class Ad
             'price'=>$this->price,
             'year'=>$this->year,
             'type_id'=>$this->typeId,
-            'user_id'=>$this->userId
+            'user_id'=>$this->userId,
+            'image_url'=>$this->imageUrl,
+            'active'=>$this->active
         ];
 
         $db->insert("ads", $data)->exec();
+    }
+
+    public static function getAll()
+    {
+        $db = new DBHelper();
+        $data = $db->select("id")->from("ads")->get();
+
+        $ads = [];
+        foreach ($data as $element) {
+            $ad = new Ad();
+            $ad->load($element["id"]);
+            $ads[] = $ad;
+        }
+
+        return $ads;
     }
 }
