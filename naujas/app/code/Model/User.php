@@ -142,16 +142,6 @@ class User extends AbstractModel
         return $this;
     }
 
-    public static function emailUniq($email)
-    {
-        $db = new DBHelper();
-
-        $rez = $db->select()->from('users')->where('email', $email)->get();
-
-        return empty($rez);
-        //return $rez;
-    }
-
     public static function checkLoginCredentials($email, $password) {
         $db = new DBHelper();
         $rez = $db->select("id")->from("users")->where("email", $email)->andWhere("password", $password)->getOne();

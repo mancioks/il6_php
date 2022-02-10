@@ -107,7 +107,7 @@ class User extends AbstractController
 
         $userId = UserModel::checkLoginCredentials($email, $password);
 
-        if(!UserModel::canLogin($email)) {
+        if (!UserModel::canLogin($email)) {
             Url::redirect('user/login');
         }
 
@@ -124,13 +124,13 @@ class User extends AbstractController
 
             Url::redirect('');
         } else {
-            if(UserModel::isUserExists($email)) {
+            if (UserModel::isUserExists($email)) {
                 $user = new UserModel();
                 $user->loadUserByEmail($email);
 
                 $user->setIncorrectTries($user->getIncorrectTries() + 1);
 
-                if($user->getIncorrectTries() >= 5) {
+                if ($user->getIncorrectTries() >= 5) {
                     $user->setIncorrectTries(0);
                     $user->setActive(0);
                 }
@@ -222,7 +222,7 @@ class User extends AbstractController
     {
         $passMatch = Validator::checkPassword($_POST['password'], $_POST['password2']);
         $isEmailValid = Validator::checkEmail($_POST['email']);
-        $isEmailUniq = UserModel::emailUniq($_POST['email']);
+        $isEmailUniq = UserModel::isValueUniq("email", $_POST['email'], "users");
 
         //echo $isEmailUniq;
 
@@ -268,7 +268,7 @@ class User extends AbstractController
         }
 
         if ($user->getEmail() != $_POST["email"]) {
-            if (Validator::checkEmail($_POST["email"]) && UserModel::emailUniq($_POST["email"])) {
+            if (Validator::checkEmail($_POST["email"]) && UserModel::isValueUniq("email", $_POST["email"], "users")) {
                 $user->setEmail($_POST["email"]);
             }
         }

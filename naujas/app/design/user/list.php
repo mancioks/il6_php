@@ -4,7 +4,7 @@
         <?php foreach ($this->data['users'] as $user): ?>
 
             <li>
-                <a href="<?php echo BASE_URL; ?>user/show/<?php echo $user->getId(); ?>">
+                <a href="<?php echo $this->url("user/show", $user->getId()) ?>">
                     <?php echo $user->getName(); ?> <?php echo $user->getLastName(); ?>
                 </a>
             </li>

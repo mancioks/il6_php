@@ -7,12 +7,12 @@
                     <div class="ad-image-wrapper">
                         <img src="<?php echo $ad->getImageUrl(); ?>"/>
                     </div>
-                    <a href="<?php echo BASE_URL; ?>catalog/show/<?php echo $ad->getId(); ?>">
+                    <a href="<?php echo $this->url("catalog/show", $ad->getId()) ?>">
                         <?php echo $ad->getTitle(); ?>
                     </a>
                     <?php if ($this->isUserLogged()): ?>
                         <?php if ($ad->getUserId() == $_SESSION["user_id"]): ?>
-                            <a href="<?php echo BASE_URL; ?>catalog/edit/<?php echo $ad->getId(); ?>"
+                            <a href="<?php echo $this->url("catalog/edit", $ad->getId()) ?>"
                                class="button-edit">Edit</a>
                         <?php endif; ?>
                     <?php endif; ?>

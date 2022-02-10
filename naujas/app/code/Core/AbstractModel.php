@@ -50,4 +50,14 @@ class AbstractModel
         $db = new DBHelper();
         $db->delete()->from($this->table)->where("id", $this->id)->exec();
     }
+
+    public static function isValueUniq($column, $value, $table)
+    {
+        $db = new DBHelper();
+
+        $rez = $db->select()->from($table)->where($column, $value)->get();
+
+        return empty($rez);
+        //return $rez;
+    }
 }
