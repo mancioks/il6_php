@@ -2,17 +2,12 @@
 
 namespace Model;
 
+use Core\AbstractModel;
 use Helper\DBHelper;
 
-class City
+class City extends AbstractModel
 {
-    private $id;
     private $name;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getName()
     {
@@ -24,33 +19,16 @@ class City
         $this->name = $name;
     }
 
-    public function save()
+    public function __construct()
     {
-        if (!isset($this->id)) {
-            $this->create();
-        } else {
-            $this->update();
-        }
+        $this->table = "cities";
     }
 
-    private function create()
+    public function assignData()
     {
-        $data = [
+        $this->data = [
             'name' => $this->name,
         ];
-
-        $db = new DBHelper();
-        $db->insert('cities', $data)->exec();
-    }
-
-    private function update() {
-        $db = new DBHelper();
-        $db->update('cities', ["name" => $this->name])->where('id', $this->id)->exec();
-    }
-
-    public function delete() {
-        $db = new DBHelper();
-        $db->delete()->from("cities")->where("id", $this->id)->exec();
     }
 
     public function load($id) {

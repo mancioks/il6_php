@@ -55,7 +55,7 @@ nav ul li a{
 }
 footer{
     border-top:1px solid #999;
-    padding-top: 15px;
+    padding: 15px 0;
     text-align: left;
     margin: 0;
 }
@@ -103,6 +103,7 @@ footer{
 .ad-image-wrapper img{
     width: 100%;
     margin-bottom: 15px;
+    max-width: 500px;
 }
 .inactive-ad{
     opacity: 0.5;

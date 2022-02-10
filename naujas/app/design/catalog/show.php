@@ -5,5 +5,5 @@
     </div>
     <p><?php echo $this->data['ad']->getDescription(); ?></p>
     <div class="ad-price"><?php echo $this->data['ad']->getPrice(); ?>€</div>
-    <div class="ad-year"><?php echo $this->data['ad']->getYear(); ?>€</div>
+    <div class="ad-year"><?php echo $this->data['ad']->getYear(); ?></div>
 </div>

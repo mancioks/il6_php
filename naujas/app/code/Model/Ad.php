@@ -2,11 +2,11 @@
 
 namespace Model;
 
+use Core\AbstractModel;
 use Helper\DBHelper;
 
-class Ad
+class Ad extends AbstractModel
 {
-    private $id;
     private $title;
     private $description;
     private $manufacturerId;
@@ -18,13 +18,6 @@ class Ad
     private $imageUrl;
     private $active;
 
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * @return mixed
@@ -153,26 +146,52 @@ class Ad
     {
         $this->userId = $userId;
     }
+
     public function setImageUrl($imageUrl)
     {
         $this->imageUrl = $imageUrl;
     }
+
     public function getImageUrl()
     {
         return $this->imageUrl;
     }
+
     public function setActive($active)
     {
         $this->active = $active;
     }
+
     public function getActive()
     {
         return $this->active;
     }
 
-    public function load($id) {
+    public function __construct()
+    {
+        $this->table = "ads";
+    }
+
+    protected function assignData()
+    {
+        $this->data = [
+            'title' => $this->title,
+            'description' => $this->description,
+            'manufacturer_id' => $this->manufacturerId,
+            'model_id' => $this->modelId,
+            'price' => $this->price,
+            'year' => $this->year,
+            'type_id' => $this->typeId,
+            'user_id' => $this->userId,
+            'image_url' => $this->imageUrl,
+            'active' => $this->active
+        ];
+    }
+
+    public function load($id)
+    {
         $db = new DBHelper();
-        $data = $db->select()->from("ads")->where("id", $id)->getOne();
+        $data = $db->select()->from($this->table)->where("id", $id)->getOne();
 
         $this->id = $data["id"];
         $this->title = $data["title"];
@@ -185,52 +204,6 @@ class Ad
         $this->userId = $data["user_id"];
         $this->imageUrl = $data["image_url"];
         $this->active = $data["active"];
-    }
-
-    public function save() {
-        if(isset($this->id)) {
-            $this->update();
-        } else {
-            $this->create();
-        }
-    }
-
-    private function update() {
-        $db = new DBHelper();
-
-        $data = [
-            'title'=>$this->title,
-            'description' => $this->description,
-            'manufacturer_id'=>$this->manufacturerId,
-            'model_id'=>$this->modelId,
-            'price'=>$this->price,
-            'year'=>$this->year,
-            'type_id'=>$this->typeId,
-            'user_id'=>$this->userId,
-            'image_url'=>$this->imageUrl,
-            'active'=>$this->active
-        ];
-
-        $db->update("ads", $data)->where('id', $this->id)->exec();
-    }
-
-    private function create() {
-        $db = new DBHelper();
-
-        $data = [
-            'title'=>$this->title,
-            'description' => $this->description,
-            'manufacturer_id'=>$this->manufacturerId,
-            'model_id'=>$this->modelId,
-            'price'=>$this->price,
-            'year'=>$this->year,
-            'type_id'=>$this->typeId,
-            'user_id'=>$this->userId,
-            'image_url'=>$this->imageUrl,
-            'active'=>$this->active
-        ];
-
-        $db->insert("ads", $data)->exec();
     }
 
     public static function getAll()

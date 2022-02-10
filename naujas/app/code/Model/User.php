@@ -2,13 +2,13 @@
 
 namespace Model;
 
+use Core\AbstractModel;
 use Helper\DBHelper;
 use Helper\Validator;
 use Model\City;
 
-class User
+class User extends AbstractModel
 {
-    private $id;
     private $name;
     private $lastName;
     private $email;
@@ -18,11 +18,6 @@ class User
     private $city;
     private $active;
     private $incorrectTries;
-
-    public function getId()
-    {
-        return $this->id;
-    }
 
     public function getName()
     {
@@ -108,34 +103,14 @@ class User
         return $this->incorrectTries;
     }
 
-    public function save()
+    public function __construct()
     {
-        if (!isset($this->id)) {
-            $this->create();
-        } else {
-            $this->update();
-        }
+        $this->table = "users";
     }
 
-    private function create()
+    protected function assignData()
     {
-        $data = [
-            'name' => $this->name,
-            'lastname' => $this->lastName,
-            'email' => $this->email,
-            'password' => $this->password,
-            'phone' => $this->phone,
-            'city_id' => $this->cityId,
-            'active' => 1,
-            'incorrect_tries' => 0
-        ];
-
-        $db = new DBHelper();
-        $db->insert('users', $data)->exec();
-    }
-
-    private function update() {
-        $data = [
+        $this->data = [
             'name' => $this->name,
             'lastname' => $this->lastName,
             'email' => $this->email,
@@ -145,14 +120,6 @@ class User
             'active' => $this->active,
             'incorrect_tries' => $this->incorrectTries
         ];
-
-        $db = new DBHelper();
-        $db->update('users', $data)->where('id', $this->id)->exec();
-    }
-
-    public function delete() {
-        $db = new DBHelper();
-        $db->delete()->from("users")->where("id", $this->id)->exec();
     }
 
     public function load($id) {

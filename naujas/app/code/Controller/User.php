@@ -235,6 +235,8 @@ class User extends AbstractController
             $user->setPhone($_POST["phone"]);
             $user->setPassword(md5($_POST["password"]));
             $user->setCityId($_POST["city_id"]);
+            $user->setActive(1);
+            $user->setIncorrectTries(0);
 
             $user->save();
 
