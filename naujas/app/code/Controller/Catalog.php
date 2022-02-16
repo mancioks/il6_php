@@ -172,6 +172,15 @@ class Catalog extends AbstractController
 
         $ad = new Ad();
 
+        $latestAd = Ad::getLast();
+        $latestId = $latestAd->getId();
+
+        $slug = Url::generateSlug($_POST["title"]);
+        while (!Ad::isValueUniq("slug", $slug, 'ads')) {
+            $latestId += 1;
+            $slug = $slug . "-" . $latestId;
+        }
+
         $ad->setTitle($_POST["title"]);
         $ad->setDescription($_POST["description"]);
         $ad->setManufacturerId(1);
@@ -184,19 +193,9 @@ class Catalog extends AbstractController
         $ad->setVin($_POST["vin"]);
         $ad->setActive(1);
         $ad->setViews(0);
-        $ad->setSlug("");
+        $ad->setSlug($slug);
 
         $ad->save();
-
-        $latestAd = Ad::getLast();
-
-        $slug = Url::generateSlug($latestAd->getTitle());
-        while (!Ad::isValueUniq("slug", $slug, 'ads')) {
-            $slug = $slug . "-" . $latestAd->getId();
-        }
-
-        $latestAd->setSlug($slug);
-        $latestAd->save();
 
         Url::redirect("catalog/create");
     }
