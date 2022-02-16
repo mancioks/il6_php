@@ -267,13 +267,16 @@ class Ad extends AbstractModel
         $this->load($loadBy);
     }
 
-    public static function getAll($order = [])
+    public static function getAll($params = [])
     {
         $db = new DBHelper();
 
         $db->select("id")->from("ads")->where("active", 1);
-        if(!empty($order)) {
-            $db->orderBy($order["order_by"], $order["clause"]);
+        if(isset($params["order_by"]) && isset($params["clause"])) {
+            $db->orderBy($params["order_by"], $params["clause"]);
+        }
+        if(isset($params["limit"])) {
+            $db->limit($params["limit"]);
         }
         $data = $db->get();
 

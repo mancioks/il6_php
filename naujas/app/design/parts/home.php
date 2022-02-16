@@ -2,8 +2,7 @@
 <h2>Naujausi skelbimai</h2>
 <div class="list-wrapper">
     <ol class="ads-list ads-5">
-        <?php for($x = 0; $x < 5; $x++): ?>
-            <?php $ad = $this->data["new_ads"][$x]; ?>
+        <?php foreach ($this->data["new_ads"] as $ad): ?>
             <li>
                 <div class="ad-image-wrapper">
                     <img src="<?php echo $ad->getImageUrl(); ?>"/>
@@ -12,14 +11,13 @@
                     <?php echo $ad->getTitle(); ?>
                 </a>
             </li>
-        <?php endfor; ?>
+        <?php endforeach; ?>
     </ol>
 </div>
 <h2>Populiariausi skelbimai</h2>
 <div class="list-wrapper">
     <ol class="ads-list ads-5">
-        <?php for($x = 0; $x < 5; $x++): ?>
-            <?php $ad = $this->data["popular_ads"][$x]; ?>
+        <?php foreach ($this->data["popular_ads"] as $ad): ?>
             <li>
                 <div class="ad-image-wrapper">
                     <img src="<?php echo $ad->getImageUrl(); ?>"/>
@@ -28,6 +26,6 @@
                     <?php echo $ad->getTitle(); ?>
                 </a>
             </li>
-        <?php endfor; ?>
+        <?php endforeach; ?>
     </ol>
 </div>
