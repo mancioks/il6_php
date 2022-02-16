@@ -2,8 +2,6 @@
 
 namespace Controller;
 
-use Core\AbstractModel;
-use Helper\DBHelper;
 use Helper\FormHelper;
 use Helper\Url;
 use Model\Ad;

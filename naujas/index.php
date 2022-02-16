@@ -37,13 +37,12 @@ if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/') {
 
         }
         else {
-            $object->error();
+            \Controller\Error::show(404);
         }
 
     }
     else {
-        $error = new \Core\AbstractController();
-        $error->error();
+        \Controller\Error::show(404);
     }
 
 }

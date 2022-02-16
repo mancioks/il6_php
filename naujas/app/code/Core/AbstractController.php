@@ -34,9 +34,4 @@ class AbstractController
     {
 
     }
-
-    public function error()
-    {
-        $this->render("parts/404");
-    }
 }
