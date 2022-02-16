@@ -176,7 +176,7 @@ class User extends AbstractModel
 
     public static function isUserExists($userEmail)
     {
-        return !(User::emailUniq($userEmail));
+        return !(User::isValueUniq("email", $userEmail, "users"));
     }
 
     public function loadUserByEmail($email)

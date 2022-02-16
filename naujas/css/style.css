@@ -87,6 +87,9 @@ footer{
     grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
     grid-gap: 20px;
 }
+.ads-list.ads-5{
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
 .ads-list li{
     display: block;
     background: #e9eaee;

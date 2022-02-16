@@ -17,6 +17,10 @@ class Ad extends AbstractModel
     private $userId;
     private $imageUrl;
     private $active;
+    private $slug;
+    private $createdAt;
+    private $vin;
+    private $views;
 
 
     /**
@@ -172,6 +176,44 @@ class Ad extends AbstractModel
         $this->table = "ads";
     }
 
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+    }
+
+    public function getSlug()
+    {
+        if($this->slug)
+            return $this->slug;
+        else
+            return $this->id;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function getVin()
+    {
+        return $this->vin;
+    }
+
+    public function setVin($vin)
+    {
+        $this->vin = $vin;
+    }
+
+    public function getViews()
+    {
+        return $this->views;
+    }
+
+    public function setViews($views)
+    {
+        $this->views = $views;
+    }
+
     protected function assignData()
     {
         $this->data = [
@@ -184,7 +226,10 @@ class Ad extends AbstractModel
             'type_id' => $this->typeId,
             'user_id' => $this->userId,
             'image_url' => $this->imageUrl,
-            'active' => $this->active
+            'active' => $this->active,
+            'slug' => $this->slug,
+            'vin' => $this->vin,
+            'views' => $this->views
         ];
     }
 
@@ -204,12 +249,33 @@ class Ad extends AbstractModel
         $this->userId = $data["user_id"];
         $this->imageUrl = $data["image_url"];
         $this->active = $data["active"];
+        $this->slug = $data["slug"];
+        $this->vin = $data["vin"];
+        $this->views = $data["views"];
     }
 
-    public static function getAll()
+    public function loadBySlug($slug)
     {
         $db = new DBHelper();
-        $data = $db->select("id")->from("ads")->get();
+        $data = $db->select("id")->from($this->table)->where("slug", $slug)->getOne();
+
+        $loadBy = $slug;
+
+        if(isset($data["id"]))
+            $loadBy = $data["id"];
+
+        $this->load($loadBy);
+    }
+
+    public static function getAll($order = [])
+    {
+        $db = new DBHelper();
+
+        $db->select("id")->from("ads")->where("active", 1);
+        if(!empty($order)) {
+            $db->orderBy($order["order_by"], $order["clause"]);
+        }
+        $data = $db->get();
 
         $ads = [];
         foreach ($data as $element) {
@@ -219,5 +285,39 @@ class Ad extends AbstractModel
         }
 
         return $ads;
+    }
+
+    public static function search($search, $order = [])
+    {
+        $db = new DBHelper();
+
+        $db->select("id")->from("ads")
+            ->where("title", "%".$search."%", "LIKE")->andWhere("active", 1)
+            ->orWhere("description", "%".$search."%", "LIKE")->andWhere("active", 1);
+
+        if(!empty($order)) {
+            $db->orderBy($order["order_by"], $order["clause"]);
+        }
+        $data = $db->get();
+
+        $ads = [];
+        foreach ($data as $element) {
+            $ad = new Ad();
+            $ad->load($element["id"]);
+            $ads[] = $ad;
+        }
+
+        return $ads;
+    }
+
+    public static function getLast()
+    {
+        $db = new DBHelper();
+        $data = $db->select("id")->from("ads")->orderBy("id")->limit(1)->getOne();
+
+        $ad = new Ad();
+        $ad->load($data["id"]);
+
+        return $ad;
     }
 }

@@ -1,4 +1,16 @@
 <h1>Skelbimai</h1>
+<div class="search-wrapper">
+    <?php echo $this->data["search_form"]; ?>
+</div>
+<div class="order-wrapper">
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=id&clause=ASC">Numatytasis rikiavimas</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=created_at&clause=ASC">Seniausi pirmiau</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=created_at&clause=DESC">Naujausi pirmiau</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=price&clause=ASC">Pigiausi pirmiau</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=price&clause=DESC">Brangiausi pirmiau</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=title&clause=ASC">Pavadinimas a-z</a>
+    <a href="<?php echo $this->url("catalog/all"); ?>?order_by=title&clause=DESC">Pavadinimas z-a</a>
+</div>
 <div class="list-wrapper">
     <ol class="ads-list">
         <?php foreach ($this->data['ads'] as $ad): ?>
@@ -7,7 +19,7 @@
                     <div class="ad-image-wrapper">
                         <img src="<?php echo $ad->getImageUrl(); ?>"/>
                     </div>
-                    <a href="<?php echo $this->url("catalog/show", $ad->getId()) ?>">
+                    <a href="<?php echo $this->url("catalog/show", $ad->getSlug()) ?>">
                         <?php echo $ad->getTitle(); ?>
                     </a>
                     <?php if ($this->isUserLogged()): ?>

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Core\AbstractModel;
 use Helper\DBHelper;
 use Helper\FormHelper;
 use Helper\Url;
@@ -10,10 +11,13 @@ use Core\AbstractController;
 
 class Catalog extends AbstractController
 {
-    public function show($id)
+    public function show($slug)
     {
         $ad = new Ad();
-        $ad->load($id);
+        //$ad->load($id);
+        $ad->loadBySlug($slug);
+        $ad->setViews($ad->getViews() + 1);
+        $ad->save();
         $this->data['ad'] = $ad;
         $this->render("catalog/show");
     }
@@ -51,6 +55,11 @@ class Catalog extends AbstractController
             'name' => 'image_url',
             'type' => 'text',
             'placeholder' => 'Image url'
+        ]);
+        $form->input([
+            'name' => 'vin',
+            'type' => 'text',
+            'placeholder' => 'Vin kodas'
         ]);
         $form->input([
             'name' => 'submit',
@@ -101,6 +110,12 @@ class Catalog extends AbstractController
             'placeholder' => 'Image url',
             'value' => $ad->getImageUrl()
         ]);
+        $form->input([
+            'name' => 'vin',
+            'type' => 'text',
+            'placeholder' => 'Vin kodas',
+            'value' => $ad->getVin()
+        ]);
 
         $years = [];
         for ($x = 1990; $x <= date("Y"); $x++) {
@@ -114,7 +129,7 @@ class Catalog extends AbstractController
         ]);
         $form->select([
             'name' => 'active',
-            'options' => [1=>"Aktyvus", 0=>"Neaktyvus"],
+            'options' => [1 => "Aktyvus", 0 => "Neaktyvus"],
             'selected' => $ad->getActive()
         ]);
         $form->input([
@@ -146,9 +161,22 @@ class Catalog extends AbstractController
         $ad->setTypeId(1);
         $ad->setUserId($_SESSION["user_id"]);
         $ad->setImageUrl($_POST["image_url"]);
+        $ad->setVin($_POST["vin"]);
         $ad->setActive(1);
+        $ad->setViews(0);
+        $ad->setSlug("");
 
         $ad->save();
+
+        $latestAd = Ad::getLast();
+
+        $slug = Url::generateSlug($latestAd->getTitle());
+        while (!Ad::isValueUniq("slug", $slug, 'ads')) {
+            $slug = $slug . "-" . $latestAd->getId();
+        }
+
+        $latestAd->setSlug($slug);
+        $latestAd->save();
 
         Url::redirect("catalog/create");
     }
@@ -169,6 +197,7 @@ class Catalog extends AbstractController
         $ad->setYear($_POST["year"]);
         $ad->setImageUrl($_POST["image_url"]);
         $ad->setActive($_POST["active"]);
+        $ad->setVin($_POST["vin"]);
 
         $ad->save();
 
@@ -177,7 +206,32 @@ class Catalog extends AbstractController
 
     public function all()
     {
-        $ads = Ad::getAll();
+        $order = [];
+
+        if (isset($_GET["order_by"]) && isset($_GET["clause"])) {
+            $order["order_by"] = $_GET["order_by"];
+            $order["clause"] = $_GET["clause"];
+        }
+
+        $searchForm = new FormHelper("catalog/all", "GET");
+        $searchForm->input([
+            "type" => "text",
+            "name" => "search",
+            "placeholder" => "Paieška"
+        ]);
+        $searchForm->input([
+            "type" => "submit",
+            "name" => "submit",
+            "value" => "search"
+        ]);
+
+        $this->data["search_form"] = $searchForm->getForm();
+
+        if (isset($_GET["search"])) {
+            $ads = Ad::search($_GET["search"], $order);
+        } else {
+            $ads = Ad::getAll($order);
+        }
 
         $this->data['ads'] = $ads;
 
