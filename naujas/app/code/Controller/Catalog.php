@@ -11,6 +11,11 @@ use Core\AbstractController;
 
 class Catalog extends AbstractController
 {
+    public function index()
+    {
+        $this->all();
+    }
+
     public function show($slug)
     {
         $ad = new Ad();

@@ -12,6 +12,11 @@ use Core\AbstractController;
 
 class User extends AbstractController
 {
+    public function index()
+    {
+        $this->all();
+    }
+
     public function show($id)
     {
         echo 'User controller ID ' . $id;

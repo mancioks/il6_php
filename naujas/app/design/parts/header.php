@@ -19,7 +19,7 @@ use Helper\Url;
         <div class="inner-wrapper">
             <ul>
                 <li><a href="/">Home page</a></li>
-                <li><a href="/catalog/all">Catalog</a></li>
+                <li><a href="/catalog/">Catalog</a></li>
 
                 <?php if (!$this->isUserLogged()): ?>
                     <li class="float-right"><a href="/user/register">Sign up</a></li>
@@ -28,7 +28,7 @@ use Helper\Url;
 
                 <?php if ($this->isUserLogged()): ?>
                     <li><a href="/catalog/create">Create ad</a></li>
-                    <li><a href="/user/all">Users</a></li>
+                    <li><a href="/user/">Users</a></li>
                     <li class="float-right">
                         <a href="/user/logout" class="log-out">Log out</a>
                     </li>

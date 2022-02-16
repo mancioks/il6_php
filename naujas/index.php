@@ -16,7 +16,11 @@ if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/') {
     $path = explode('/', $path);
 
     $class = ucfirst($path[0]);
-    $method = $path[1];
+    if(isset($path[1])) {
+        $method = $path[1];
+    } else {
+        $method = "index";
+    }
 
 
     $class = 'Controller\\'.$class;
@@ -33,12 +37,13 @@ if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/') {
 
         }
         else {
-            echo "404";
+            $object->error();
         }
 
     }
     else {
-        echo "404";
+        $error = new \Core\AbstractController();
+        $error->error();
     }
 
 }

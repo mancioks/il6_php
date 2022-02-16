@@ -29,4 +29,14 @@ class AbstractController
     public function url($path, $param = null) {
         return Url::link($path, $param);
     }
+
+    public function index()
+    {
+
+    }
+
+    public function error()
+    {
+        $this->render("parts/404");
+    }
 }
