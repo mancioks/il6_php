@@ -243,8 +243,12 @@ class Catalog extends AbstractController
 
     public function delete($id)
     {
-        $db = new DBHelper();
-        $db->delete()->from("ads")->where("id", $id)->exec();
+        $ad = new Ad();
+        $ad->load($id);
+
+        if($ad->getUserId() == $_SESSION["user_id"]) {
+            $ad->setActive(0);
+        }
 
         Url::redirect("catalog/all");
     }
