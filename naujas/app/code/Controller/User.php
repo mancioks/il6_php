@@ -250,8 +250,6 @@ class User extends AbstractController
         } else {
             echo "Patikrinkite duomenis";
         }
-
-        print_r($_POST);
     }
 
     public function update()

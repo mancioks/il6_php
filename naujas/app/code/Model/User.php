@@ -184,7 +184,9 @@ class User extends AbstractModel
         $db = new DBHelper();
         $user = $db->select("id")->from("users")->where("email", $email)->getOne();
 
-        $this->load($user["id"]);
+        if(isset($user["id"])) {
+            $this->load($user["id"]);
+        }
 
         return $this;
     }
