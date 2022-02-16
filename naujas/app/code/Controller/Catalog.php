@@ -13,7 +13,22 @@ class Catalog extends AbstractController
 {
     public function index()
     {
-        $this->all();
+        $order = [];
+
+        if (isset($_GET["order_by"]) && isset($_GET["clause"])) {
+            $order["order_by"] = $_GET["order_by"];
+            $order["clause"] = $_GET["clause"];
+        }
+
+        if (isset($_GET["search"])) {
+            $ads = Ad::search($_GET["search"], $order);
+        } else {
+            $ads = Ad::getAll($order);
+        }
+
+        $this->data['ads'] = $ads;
+
+        $this->render("catalog/list");
     }
 
     public function show($slug)
@@ -209,38 +224,22 @@ class Catalog extends AbstractController
         Url::redirect("catalog/edit/" . $ad->getId());
     }
 
-    public function all()
+
+    public function results()
     {
-        $order = [];
+        if (isset($_GET["search"]) && !empty($_GET["search"])) {
+            $ads = Ad::search($_GET["search"]);
 
-        if (isset($_GET["order_by"]) && isset($_GET["clause"])) {
-            $order["order_by"] = $_GET["order_by"];
-            $order["clause"] = $_GET["clause"];
-        }
-
-        $searchForm = new FormHelper("catalog/all", "GET");
-        $searchForm->input([
-            "type" => "text",
-            "name" => "search",
-            "placeholder" => "Paieška"
-        ]);
-        $searchForm->input([
-            "type" => "submit",
-            "name" => "submit",
-            "value" => "search"
-        ]);
-
-        $this->data["search_form"] = $searchForm->getForm();
-
-        if (isset($_GET["search"])) {
-            $ads = Ad::search($_GET["search"], $order);
+            $this->data['search_query'] = $_GET["search"];
+            $this->data['ads'] = $ads;
+            $this->data['quantity'] = count($ads);
         } else {
-            $ads = Ad::getAll($order);
+            $this->data['search_query'] = "";
+            $this->data['ads'] = [];
+            $this->data['quantity'] = 0;
         }
 
-        $this->data['ads'] = $ads;
-
-        $this->render("catalog/list");
+        $this->render("catalog/results");
     }
 
     public function delete($id)

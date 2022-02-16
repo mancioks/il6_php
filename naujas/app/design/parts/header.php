@@ -35,6 +35,12 @@ use Helper\Url;
                 <?php endif; ?>
 
             </ul>
+            <div class="search-wrapper">
+                <form action="<?php echo BASE_URL; ?>catalog/results/" method="GET">
+                    <input type="text" name="search" placeholder="Paieška">
+                    <button type="submit">Ieškoti</button>
+                </form>
+            </div>
         </div>
     </nav>
 </header>

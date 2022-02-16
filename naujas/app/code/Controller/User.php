@@ -14,7 +14,8 @@ class User extends AbstractController
 {
     public function index()
     {
-        $this->all();
+        $this->data['users'] = UserModel::getAll();
+        $this->render("user/list");
     }
 
     public function show($id)
@@ -281,11 +282,5 @@ class User extends AbstractController
         $user->save();
 
         Url::redirect('user/edit');
-    }
-
-    public function all()
-    {
-        $this->data['users'] = UserModel::getAll();
-        $this->render("user/list");
     }
 }

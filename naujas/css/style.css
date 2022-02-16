@@ -6,7 +6,7 @@ body {
     background: #d7dce2;
     padding:0;
     margin: 0;
-    padding-top: 50px;
+    padding-top: 100px;
 }
 
 nav {
@@ -111,4 +111,19 @@ footer{
 .inactive-ad{
     opacity: 0.5;
     border:1px solid red;
+}
+.search-wrapper{
+    margin-bottom: 10px;
+}
+.search-wrapper input, .search-wrapper button{
+    border:1px solid #ccc;
+    background: #fff;
+    border-radius: 8px;
+    padding: 6px;
+}
+.search-wrapper button{
+    background: #1e90ff;
+    border-color: #1e90ff;
+    color: #fff;
+    cursor: pointer;
 }
