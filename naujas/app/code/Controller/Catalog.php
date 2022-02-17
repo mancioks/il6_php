@@ -37,7 +37,12 @@ class Catalog extends AbstractController
         $ad->setViews($ad->getViews() + 1);
         $ad->save();
         $this->data['ad'] = $ad;
-        $this->render("catalog/show");
+
+        if($this->data["ad"]) {
+            $this->render("catalog/show");
+        } else {
+            Error::show(404);
+        }
     }
 
     public function create()
