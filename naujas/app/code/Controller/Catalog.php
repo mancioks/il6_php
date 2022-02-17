@@ -11,19 +11,52 @@ class Catalog extends AbstractController
 {
     public function index()
     {
-        $order = [];
+        $order = [
+            "order_by" => "id",
+            "clause" => "ASC"
+        ];
 
         if (isset($_GET["order_by"]) && isset($_GET["clause"])) {
             $order["order_by"] = $_GET["order_by"];
             $order["clause"] = $_GET["clause"];
         }
 
-        if (isset($_GET["search"])) {
-            $ads = Ad::search($_GET["search"], $order);
-        } else {
-            $ads = Ad::getAll($order);
+        $ads = Ad::getAll($order);
+
+        $quantity = count($ads);
+        $perPage = 6;
+        $pages = ceil($quantity / $perPage);
+
+        $page = 1;
+
+        if (isset($_GET["page"])) {
+            $page = $_GET["page"];
         }
 
+        if ($page > $pages) {
+            $page = $pages;
+        }
+
+        if ($page < 1) {
+            $page = 1;
+        }
+
+        $from = ($page * $perPage) - $perPage;
+
+        $ads = Ad::getAll([
+            "order_by" => $order["order_by"],
+            "clause" => $order["clause"],
+            "limit" => $from . ", " . $perPage
+        ]);
+
+        $pagesArray = [];
+        for ($x = 1; $x <= $pages; $x++) {
+            $pagesArray[] = $x;
+        }
+
+        $this->data["pages"] = $pagesArray;
+        $this->data["current_page"] = $page;
+        $this->data["order"] = $order;
         $this->data['ads'] = $ads;
 
         $this->render("catalog/list");
@@ -38,7 +71,7 @@ class Catalog extends AbstractController
         $ad->save();
         $this->data['ad'] = $ad;
 
-        if($this->data["ad"]) {
+        if ($this->data["ad"]) {
             $this->render("catalog/show");
         } else {
             Error::show(404);
@@ -249,7 +282,7 @@ class Catalog extends AbstractController
         $ad = new Ad();
         $ad->load($id);
 
-        if($ad->getUserId() == $_SESSION["user_id"]) {
+        if ($ad->getUserId() == $_SESSION["user_id"]) {
             $ad->setActive(0);
         }
 

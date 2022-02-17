@@ -30,3 +30,17 @@
         <?php endforeach; ?>
     </ol>
 </div>
+<div class="pages-wrapper">
+    <?php foreach ($this->data["pages"] as $page): ?>
+        <?php if($page != $this->data["current_page"]): ?>
+            <a href="<?php echo $this->url("catalog"); ?><?php
+            echo "?page=".$page;
+            echo "&order_by=".$this->data["order"]["order_by"];
+            echo "&clause=".$this->data["order"]["clause"]; ?>">
+                <?php echo $page; ?>
+            </a>
+        <?php else: ?>
+            <?php echo $page; ?>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>

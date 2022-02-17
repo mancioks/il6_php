@@ -285,7 +285,7 @@ class Ad extends AbstractModel
         return $ads;
     }
 
-    public static function search($search, $order = [])
+    public static function search($search, $params = [])
     {
         $db = new DBHelper();
 
@@ -293,8 +293,11 @@ class Ad extends AbstractModel
             ->where("title", "%".$search."%", "LIKE")->andWhere("active", 1)
             ->orWhere("description", "%".$search."%", "LIKE")->andWhere("active", 1);
 
-        if(!empty($order)) {
-            $db->orderBy($order["order_by"], $order["clause"]);
+        if(isset($params["order_by"]) && isset($params["clause"])) {
+            $db->orderBy($params["order_by"], $params["clause"]);
+        }
+        if(isset($params["limit"])) {
+            $db->limit($params["limit"]);
         }
         $data = $db->get();
 
