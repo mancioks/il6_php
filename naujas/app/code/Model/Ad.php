@@ -259,7 +259,9 @@ class Ad extends AbstractModel
         $db = new DBHelper();
         $data = $db->select("id")->from($this->table)->where("slug", $slug)->getOne();
 
-        $this->load($data["id"]);
+        if(!empty($data)) {
+            $this->load($data["id"]);
+        }
     }
 
     public static function getAll($params = [])

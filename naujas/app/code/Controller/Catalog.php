@@ -69,13 +69,14 @@ class Catalog extends AbstractController
         $ad = new Ad();
         //$ad->load($id);
         $ad->loadBySlug($slug);
-        $ad->setViews($ad->getViews() + 1);
-        $ad->save();
-        $this->data['ad'] = $ad;
-        $this->data['title'] = $ad->getTitle();
-        $this->data['meta_description'] = $ad->getDescription();
 
-        if ($this->data["ad"]) {
+        if($ad->getId()) {
+            $ad->setViews($ad->getViews() + 1);
+            $ad->save();
+            $this->data['ad'] = $ad;
+            $this->data['title'] = $ad->getTitle();
+            $this->data['meta_description'] = $ad->getDescription();
+
             $this->render("catalog/show");
         } else {
             Error::show(404);
