@@ -70,10 +70,17 @@ class Catalog extends AbstractController
         //$ad->load($id);
         $ad->loadBySlug($slug);
 
-        if($ad->getId()) {
+        if ($ad->getId()) {
             $ad->setViews($ad->getViews() + 1);
             $ad->save();
+
+            $relatedAds = Ad::getRelatedAds($ad, ["limit" => 5]);
+
             $this->data['ad'] = $ad;
+
+            $this->data['has_related_ads'] = count($relatedAds) > 0;
+            $this->data['related_ads'] = $relatedAds;
+
             $this->data['title'] = $ad->getTitle();
             $this->data['meta_description'] = $ad->getDescription();
 
@@ -111,7 +118,7 @@ class Catalog extends AbstractController
         }
 
         $form->selectGroup([
-            "name"=>"model_id",
+            "name" => "model_id",
             "group" => $groups
         ]);
 
@@ -187,7 +194,7 @@ class Catalog extends AbstractController
         }
 
         $form->selectGroup([
-            "name"=>"model_id",
+            "name" => "model_id",
             "group" => $groups,
             "selected" => $ad->getModelId()
         ]);

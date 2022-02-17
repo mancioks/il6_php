@@ -287,6 +287,34 @@ class Ad extends AbstractModel
         return $ads;
     }
 
+    public static function getRelatedAds($currentAd, $params = [])
+    {
+        $db = new DBHelper();
+
+        $modelId = $currentAd->getModelId();
+        $exceptId = $currentAd->getId();
+
+        $db->select("id")
+            ->from("ads")
+            ->where("active", 1)
+            ->andWhere("model_id", $modelId)
+            ->andWhere("id", $exceptId, "<>");
+
+        if(isset($params["limit"])) {
+            $db->limit($params["limit"]);
+        }
+        $data = $db->get();
+
+        $ads = [];
+        foreach ($data as $element) {
+            $ad = new Ad();
+            $ad->load($element["id"]);
+            $ads[] = $ad;
+        }
+
+        return $ads;
+    }
+
     public static function search($search, $params = [])
     {
         $db = new DBHelper();
