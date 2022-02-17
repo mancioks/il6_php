@@ -44,6 +44,29 @@ class FormHelper
         $this->form .= '</select><br>';
     }
 
+    public function selectGroup($data)
+    {
+        $this->form .= '<select name="' . $data["name"] . '">';
+
+        foreach($data["group"] as $groupName => $group) {
+            $this->form .= '<optgroup label="'.$groupName.'">';
+            foreach ($group as $value => $option) {
+                $this->form .= '<option ';
+
+                if (isset($data["selected"])) {
+                    if ($data["selected"] == $value) {
+                        $this->form .= "selected ";
+                    }
+                }
+
+                $this->form .= 'value="' . $value . '">' . $option . '</option>';
+            }
+            $this->form .= "</optgroup>";
+        }
+
+        $this->form .= '</select><br>';
+    }
+
     public function getForm()
     {
         $this->form .= '</form>';

@@ -6,6 +6,8 @@ use Helper\FormHelper;
 use Helper\Url;
 use Model\Ad;
 use Core\AbstractController;
+use Model\Manufacturer;
+use Model\Model;
 
 class Catalog extends AbstractController
 {
@@ -70,6 +72,8 @@ class Catalog extends AbstractController
         $ad->setViews($ad->getViews() + 1);
         $ad->save();
         $this->data['ad'] = $ad;
+        $this->data['title'] = $ad->getTitle();
+        $this->data['meta_description'] = $ad->getDescription();
 
         if ($this->data["ad"]) {
             $this->render("catalog/show");
@@ -91,6 +95,25 @@ class Catalog extends AbstractController
             'type' => 'text',
             'placeholder' => 'Title'
         ]);
+
+        $groups = [];
+        $manufacturers = Manufacturer::getManufacturers();
+        foreach ($manufacturers as $manufacturer) {
+            $models = [];
+            $modelsObject = Model::getModelsByManufacturerId($manufacturer->getId());
+
+            foreach ($modelsObject as $model) {
+                $models[$model->getId()] = $model->getName();
+            }
+
+            $groups[$manufacturer->getName()] = $models;
+        }
+
+        $form->selectGroup([
+            "name"=>"model_id",
+            "group" => $groups
+        ]);
+
         $form->textArea("description", "Description");
         $form->input([
             'name' => 'price',
@@ -148,6 +171,26 @@ class Catalog extends AbstractController
             'placeholder' => 'Title',
             'value' => $ad->getTitle()
         ]);
+
+        $groups = [];
+        $manufacturers = Manufacturer::getManufacturers();
+        foreach ($manufacturers as $manufacturer) {
+            $models = [];
+            $modelsObject = Model::getModelsByManufacturerId($manufacturer->getId());
+
+            foreach ($modelsObject as $model) {
+                $models[$model->getId()] = $model->getName();
+            }
+
+            $groups[$manufacturer->getName()] = $models;
+        }
+
+        $form->selectGroup([
+            "name"=>"model_id",
+            "group" => $groups,
+            "selected" => $ad->getModelId()
+        ]);
+
         $form->input([
             'name' => 'ad_id',
             'type' => 'hidden',
@@ -217,10 +260,13 @@ class Catalog extends AbstractController
             $slug = $slug . "-" . $latestId;
         }
 
+        $model = new Model();
+        $model->load($_POST["model_id"]);
+
         $ad->setTitle($_POST["title"]);
         $ad->setDescription($_POST["description"]);
-        $ad->setManufacturerId(1);
-        $ad->setModelId(1);
+        $ad->setManufacturerId($model->getManufacturerId());
+        $ad->setModelId($_POST["model_id"]);
         $ad->setPrice($_POST["price"]);
         $ad->setYear($_POST["year"]);
         $ad->setTypeId(1);
@@ -246,7 +292,12 @@ class Catalog extends AbstractController
         $ad = new Ad();
         $ad->load($adId);
 
+        $model = new Model();
+        $model->load($_POST["model_id"]);
+
         $ad->setTitle($_POST["title"]);
+        $ad->setModelId($_POST["model_id"]);
+        $ad->setManufacturerId($model->getManufacturerId());
         $ad->setDescription($_POST["description"]);
         $ad->setPrice($_POST["price"]);
         $ad->setYear($_POST["year"]);

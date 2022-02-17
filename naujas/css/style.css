@@ -54,10 +54,10 @@ nav ul li a{
     margin-top: 8px;
 }
 footer{
-    border-top:1px solid #999;
-    padding: 15px 0;
-    text-align: left;
+    padding: 35px 0;
+    text-align: center;
     margin: 0;
+    background: #e9eaee;
 }
 .main-content{
     padding: 30px 0;
@@ -126,4 +126,25 @@ footer{
     border-color: #1e90ff;
     color: #fff;
     cursor: pointer;
+}
+
+.order-wrapper{
+    padding-bottom: 20px;
+}
+.order-wrapper a{
+    color:#000;
+    font-size: 12px;
+    text-decoration: none;
+    margin-right: 15px;
+}
+.pages-wrapper {
+    padding-top: 30px;
+    font-size: 18px;
+    color:#777;
+    text-align: center;
+}
+.pages-wrapper a{
+    color:#000;
+    font-size: 18px;
+    text-decoration: none;
 }
