@@ -10,6 +10,8 @@ class AbstractController
 
     public function __construct() {
         $this->data = [];
+        $this->data["title"] = "Autoplius";
+        $this->data["meta_description"] = '';
     }
 
     protected function render($template)
