@@ -82,4 +82,13 @@ class AbstractModel
 
         return $objects;
     }
+
+    public static function exists($id)
+    {
+        $db = new DBHelper();
+        $currentModel = new static();
+        $data = $db->select('id')->from($currentModel->table)->where("id", $id)->getOne();
+
+        return isset($data['id']);
+    }
 }

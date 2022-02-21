@@ -46,87 +46,91 @@ class Admin extends AbstractController
 
     public function adedit($adId)
     {
-        $ad = new Ad();
-        $ad->load($adId);
+        if(Ad::exists($adId)) {
+            $ad = new Ad();
+            $ad->load($adId);
 
-        $form = new FormHelper("admin/adupdate", "POST");
+            $form = new FormHelper("admin/adupdate", "POST");
 
-        $form->input([
-            'name' => 'title',
-            'type' => 'text',
-            'placeholder' => 'Title',
-            'value' => $ad->getTitle()
-        ]);
+            $form->input([
+                'name' => 'title',
+                'type' => 'text',
+                'placeholder' => 'Title',
+                'value' => $ad->getTitle()
+            ]);
 
-        $groups = [];
-        $manufacturers = Manufacturer::getManufacturers();
-        foreach ($manufacturers as $manufacturer) {
-            $models = [];
-            $modelsObject = Model::getModelsByManufacturerId($manufacturer->getId());
+            $groups = [];
+            $manufacturers = Manufacturer::getManufacturers();
+            foreach ($manufacturers as $manufacturer) {
+                $models = [];
+                $modelsObject = Model::getModelsByManufacturerId($manufacturer->getId());
 
-            foreach ($modelsObject as $model) {
-                $models[$model->getId()] = $model->getName();
+                foreach ($modelsObject as $model) {
+                    $models[$model->getId()] = $model->getName();
+                }
+
+                $groups[$manufacturer->getName()] = $models;
             }
 
-            $groups[$manufacturer->getName()] = $models;
+            $form->selectGroup([
+                "name" => "model_id",
+                "group" => $groups,
+                "selected" => $ad->getModelId()
+            ]);
+
+            $form->input([
+                'name' => 'ad_id',
+                'type' => 'hidden',
+                'value' => $ad->getId()
+            ]);
+            $form->textArea("description", $ad->getDescription());
+            $form->input([
+                'name' => 'price',
+                'type' => 'text',
+                'placeholder' => 'Price €',
+                'value' => $ad->getPrice()
+            ]);
+            $form->input([
+                'name' => 'image_url',
+                'type' => 'text',
+                'placeholder' => 'Image url',
+                'value' => $ad->getImageUrl()
+            ]);
+            $form->input([
+                'name' => 'vin',
+                'type' => 'text',
+                'placeholder' => 'Vin kodas',
+                'value' => $ad->getVin()
+            ]);
+
+            $years = [];
+            for ($x = 1990; $x <= date("Y"); $x++) {
+                $years[$x] = $x;
+            }
+
+            $form->select([
+                'name' => 'year',
+                'options' => $years,
+                'selected' => $ad->getYear()
+            ]);
+            $form->select([
+                'name' => 'active',
+                'options' => [1 => "Aktyvus", 0 => "Neaktyvus"],
+                'selected' => $ad->getActive()
+            ]);
+            $form->input([
+                'name' => 'submit',
+                'type' => 'submit',
+                'value' => 'Atnaujinti'
+            ]);
+
+            $this->data["form"] = $form->getForm();
+            $this->data["ad_title"] = $ad->getTitle();
+
+            $this->renderAdmin("ads/edit");
+        } else {
+            Error::show(404, true);
         }
-
-        $form->selectGroup([
-            "name" => "model_id",
-            "group" => $groups,
-            "selected" => $ad->getModelId()
-        ]);
-
-        $form->input([
-            'name' => 'ad_id',
-            'type' => 'hidden',
-            'value' => $ad->getId()
-        ]);
-        $form->textArea("description", $ad->getDescription());
-        $form->input([
-            'name' => 'price',
-            'type' => 'text',
-            'placeholder' => 'Price €',
-            'value' => $ad->getPrice()
-        ]);
-        $form->input([
-            'name' => 'image_url',
-            'type' => 'text',
-            'placeholder' => 'Image url',
-            'value' => $ad->getImageUrl()
-        ]);
-        $form->input([
-            'name' => 'vin',
-            'type' => 'text',
-            'placeholder' => 'Vin kodas',
-            'value' => $ad->getVin()
-        ]);
-
-        $years = [];
-        for ($x = 1990; $x <= date("Y"); $x++) {
-            $years[$x] = $x;
-        }
-
-        $form->select([
-            'name' => 'year',
-            'options' => $years,
-            'selected' => $ad->getYear()
-        ]);
-        $form->select([
-            'name' => 'active',
-            'options' => [1 => "Aktyvus", 0 => "Neaktyvus"],
-            'selected' => $ad->getActive()
-        ]);
-        $form->input([
-            'name' => 'submit',
-            'type' => 'submit',
-            'value' => 'Atnaujinti'
-        ]);
-
-        $this->data["form"] = $form->getForm();
-        $this->data["ad_title"] = $ad->getTitle();
-
-        $this->renderAdmin("ads/edit");
     }
 
     public function adupdate()
@@ -155,79 +159,83 @@ class Admin extends AbstractController
 
     public function useredit($userId)
     {
-        $user = new User();
-        $user->load($userId);
+        if(User::exists($userId)) {
+            $user = new User();
+            $user->load($userId);
 
-        $form = new FormHelper('admin/userupdate', 'POST');
+            $form = new FormHelper('admin/userupdate', 'POST');
 
-        $form->input([
-            "name" => "name",
-            "type" => "text",
-            "placeholder" => "Vardas",
-            "value" => $user->getName()
-        ]);
-        $form->input([
-            "name" => "user_id",
-            "type" => "hidden",
-            "value" => $userId
-        ]);
-        $form->input([
-            "name" => "last_name",
-            "type" => "text",
-            "placeholder" => "Last name",
-            "value" => $user->getLastName()
-        ]);
-        $form->input([
-            "name" => "email",
-            "type" => "text",
-            "placeholder" => "Email",
-            "value" => $user->getEmail()
-        ]);
-        $form->input([
-            "name" => "phone",
-            "type" => "text",
-            "placeholder" => "Telefonas",
-            "value" => $user->getPhone()
-        ]);
-        $form->input([
-            "name" => "password",
-            "type" => "password",
-            "placeholder" => "New password"
-        ]);
-        $form->input([
-            "name" => "password2",
-            "type" => "password",
-            "placeholder" => "New password"
-        ]);
+            $form->input([
+                "name" => "name",
+                "type" => "text",
+                "placeholder" => "Vardas",
+                "value" => $user->getName()
+            ]);
+            $form->input([
+                "name" => "user_id",
+                "type" => "hidden",
+                "value" => $userId
+            ]);
+            $form->input([
+                "name" => "last_name",
+                "type" => "text",
+                "placeholder" => "Last name",
+                "value" => $user->getLastName()
+            ]);
+            $form->input([
+                "name" => "email",
+                "type" => "text",
+                "placeholder" => "Email",
+                "value" => $user->getEmail()
+            ]);
+            $form->input([
+                "name" => "phone",
+                "type" => "text",
+                "placeholder" => "Telefonas",
+                "value" => $user->getPhone()
+            ]);
+            $form->input([
+                "name" => "password",
+                "type" => "password",
+                "placeholder" => "New password"
+            ]);
+            $form->input([
+                "name" => "password2",
+                "type" => "password",
+                "placeholder" => "New password"
+            ]);
 
-        $cities = City::getCities();
+            $cities = City::getCities();
 
-        $options = [];
-        foreach ($cities as $city) {
-            $options[$city->getId()] = $city->getName();
+            $options = [];
+            foreach ($cities as $city) {
+                $options[$city->getId()] = $city->getName();
+            }
+
+            $form->select([
+                "name" => "city_id",
+                "options" => $options,
+                "selected" => $user->getCityId()
+            ]);
+
+            $form->select([
+                "name" => "active",
+                "options" => ["0" => "Neaktyvus", "1" => "Aktyvus"],
+                "selected" => $user->getActive()
+            ]);
+
+            $form->input([
+                "name" => "create",
+                "type" => "submit",
+                "value" => "Pakeisti"
+            ]);
+
+            $this->data['form'] = $form->getForm();
+
+            $this->renderAdmin("users/edit");
+        } else {
+            Error::show(404, true);
         }
-
-        $form->select([
-            "name" => "city_id",
-            "options" => $options,
-            "selected" => $user->getCityId()
-        ]);
-
-        $form->select([
-            "name" => "active",
-            "options" => ["0" => "Neaktyvus", "1" => "Aktyvus"],
-            "selected" => $user->getActive()
-        ]);
-
-        $form->input([
-            "name" => "create",
-            "type" => "submit",
-            "value" => "Pakeisti"
-        ]);
-
-        $this->data['form'] = $form->getForm();
-
-        $this->renderAdmin("users/edit");
     }
 
     public function userupdate()

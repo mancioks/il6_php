@@ -334,4 +334,5 @@ class Ad extends AbstractModel
 
         return $ad;
     }
+
 }
