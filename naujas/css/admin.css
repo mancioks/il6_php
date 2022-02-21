@@ -111,6 +111,10 @@ a.button{
     background: #1e90ff;
     margin-top: 8px !important;
 }
+.admin-exit{
+    background: #a2a25b;
+    margin-top: 8px !important;
+}
 
 .log-out{
     background: orangered;
@@ -129,14 +133,6 @@ footer{
     padding-top: 130px;
     width: 100%;
     margin: 0 auto;
-}
-.log-out{
-    background: orangered;
-    color: #fff;
-    padding:10px;
-    border-radius: 5px;
-    margin: 0;
-    margin-top: 8px;
 }
 .button-edit{
     background: #d7d1d1;
@@ -282,4 +278,39 @@ h1{
 .ads-slider-wrapper .ads-list li:hover{
     transform: translateY(-10px);
 
+}
+.ad-description{
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100px;
+}
+.ad-image img{
+    max-width: 100px;
+}
+table {
+    border-collapse: collapse;
+    font-family: Tahoma, Geneva, sans-serif;
+}
+table td {
+    padding: 15px;
+}
+table thead th {
+    background-color: #54585d;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 13px;
+    border: 1px solid #54585d;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+table tbody td {
+    color: #636363;
+    border: 1px solid #dddfe1;
+}
+table tbody tr {
+    background-color: #f9fafb;
+}
+table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
 }

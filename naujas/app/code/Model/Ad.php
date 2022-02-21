@@ -3,6 +3,7 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Helper\ArrayHelper;
 use Helper\DBHelper;
 
 class Ad extends AbstractModel
@@ -264,27 +265,23 @@ class Ad extends AbstractModel
         }
     }
 
-    public static function getAll($params = [])
+    public static function getAll($params = [], $withDeactivated = false)
     {
         $db = new DBHelper();
 
-        $db->select("id")->from("ads")->where("active", 1);
+        $db->select("id")->from("ads");
+        if(!$withDeactivated) {
+            $db->where("active", 1);
+        }
         if(isset($params["order_by"]) && isset($params["clause"])) {
             $db->orderBy($params["order_by"], $params["clause"]);
         }
         if(isset($params["limit"])) {
             $db->limit($params["limit"]);
         }
-        $data = $db->get();
+        $data = ArrayHelper::rowsToIds($db->get());
 
-        $ads = [];
-        foreach ($data as $element) {
-            $ad = new Ad();
-            $ad->load($element["id"]);
-            $ads[] = $ad;
-        }
-
-        return $ads;
+        return Ad::getCollection($data);
     }
 
     public static function getRelatedAds($currentAd, $params = [])
@@ -303,16 +300,9 @@ class Ad extends AbstractModel
         if(isset($params["limit"])) {
             $db->limit($params["limit"]);
         }
-        $data = $db->get();
+        $data = ArrayHelper::rowsToIds($db->get());
 
-        $ads = [];
-        foreach ($data as $element) {
-            $ad = new Ad();
-            $ad->load($element["id"]);
-            $ads[] = $ad;
-        }
-
-        return $ads;
+        return Ad::getCollection($data);
     }
 
     public static function search($search, $params = [])
@@ -329,16 +319,9 @@ class Ad extends AbstractModel
         if(isset($params["limit"])) {
             $db->limit($params["limit"]);
         }
-        $data = $db->get();
+        $data = ArrayHelper::rowsToIds($db->get());
 
-        $ads = [];
-        foreach ($data as $element) {
-            $ad = new Ad();
-            $ad->load($element["id"]);
-            $ads[] = $ad;
-        }
-
-        return $ads;
+        return Ad::getCollection($data);
     }
 
     public static function getLast()

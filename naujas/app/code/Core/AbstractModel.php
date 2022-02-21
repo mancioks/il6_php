@@ -3,6 +3,7 @@
 namespace Core;
 
 use Helper\DBHelper;
+use Model\Ad;
 
 class AbstractModel
 {
@@ -59,5 +60,26 @@ class AbstractModel
 
         return empty($rez);
         //return $rez;
+    }
+
+    public static function count()
+    {
+        $db = new DBHelper();
+        $currentModel = new static();
+        $count = $db->select("count(*)")->from($currentModel->table)->getOne();
+
+        return $count[0];
+    }
+
+    public static function getCollection($ids)
+    {
+        $objects = [];
+        foreach ($ids as $id) {
+            $object = new static();
+            $object->load($id);
+            $objects[] = $object;
+        }
+
+        return $objects;
     }
 }

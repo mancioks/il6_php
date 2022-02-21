@@ -23,9 +23,8 @@ class Catalog extends AbstractController
             $order["clause"] = $_GET["clause"];
         }
 
-        $ads = Ad::getAll($order);
+        $quantity = Ad::count();
 
-        $quantity = count($ads);
         $perPage = 6;
         $pages = ceil($quantity / $perPage);
 

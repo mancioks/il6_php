@@ -19,29 +19,36 @@ use Helper\Url;
     <nav>
         <div class="inner-wrapper">
             <ul>
-                <li><a href="/">Home page</a></li>
-                <li><a href="/catalog/">Catalog</a></li>
+                <li><a href="/">Pradžia</a></li>
+                <li><a href="/catalog/">Visi skelbimai</a></li>
 
                 <?php if (!$this->isUserLogged()): ?>
-                    <li class="float-right"><a href="/user/register">Sign up</a></li>
-                    <li class="float-right"><a href="/user/login">Login</a></li>
+                    <li class="float-right"><a href="/user/register">Registruotis</a></li>
+                    <li class="float-right"><a href="/user/login">Prisijungti</a></li>
                 <?php endif; ?>
 
                 <?php if ($this->isUserLogged()): ?>
-                    <li><a href="/catalog/create">Create ad</a></li>
-                    <li><a href="/user/">Users</a></li>
+                    <li><a href="/catalog/create">Pridėti</a></li>
+                    <li><a href="/user/">Vartotojai</a></li>
                     <li class="float-right">
-                        <a href="/user/logout" class="log-out">Log out</a>
+                        <a href="/user/logout" class="button log-out">Atsijungti</a>
                     </li>
                 <?php endif; ?>
 
+                <?php if ($this->isUserAdmin()): ?>
+                    <li class="float-right">
+                        <a href="/admin" class="button admin-button">Admin</a>
+                    </li>
+                <?php endif; ?>
+                <li>
+                    <div class="search-wrapper">
+                        <form action="<?php echo BASE_URL; ?>catalog/results/" method="GET">
+                            <input type="text" name="search" placeholder="Paieška">
+                            <button type="submit">Ieškoti</button>
+                        </form>
+                    </div>
+                </li>
             </ul>
-            <div class="search-wrapper">
-                <form action="<?php echo BASE_URL; ?>catalog/results/" method="GET">
-                    <input type="text" name="search" placeholder="Paieška">
-                    <button type="submit">Ieškoti</button>
-                </form>
-            </div>
         </div>
     </nav>
 </header>

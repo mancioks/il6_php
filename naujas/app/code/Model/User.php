@@ -18,6 +18,7 @@ class User extends AbstractModel
     private $city;
     private $active;
     private $incorrectTries;
+    private $roleId;
 
     public function getName()
     {
@@ -108,6 +109,16 @@ class User extends AbstractModel
         $this->table = "users";
     }
 
+    public function getRoleId()
+    {
+        return $this->roleId;
+    }
+
+    public function setRoleId($roleId)
+    {
+        $this->roleId = $roleId;
+    }
+
     protected function assignData()
     {
         $this->data = [
@@ -118,7 +129,8 @@ class User extends AbstractModel
             'phone' => $this->phone,
             'city_id' => $this->cityId,
             'active' => $this->active,
-            'incorrect_tries' => $this->incorrectTries
+            'incorrect_tries' => $this->incorrectTries,
+            'role_id' => $this->roleId
         ];
     }
 
@@ -135,6 +147,7 @@ class User extends AbstractModel
         $this->cityId = $data['city_id'];
         $this->active = $data['active'];
         $this->incorrectTries = $data['incorrect_tries'];
+        $this->roleId = $data['role_id'];
 
         $city = new City();
         $this->city = $city->load($this->cityId);
