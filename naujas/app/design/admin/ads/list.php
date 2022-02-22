@@ -3,7 +3,7 @@
  * @var \Model\Ad $ad
  */
 ?>
-<form action="<?= $this->url("admin/editselected") ?>" method="post">
+<form action="<?= $this->url("admin/editselectedads") ?>" method="post">
     Pažymėtus:
     <select name="with_selected">
         <option value="activate">Aktyvuoti</option>

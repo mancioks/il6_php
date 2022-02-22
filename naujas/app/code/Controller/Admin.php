@@ -265,7 +265,7 @@ class Admin extends AbstractController
         Url::redirect('admin/useredit/' . $userId);
     }
 
-    public function editselected()
+    public function editselectedads()
     {
         $checkedAds = [];
         if(isset($_POST["checked_ads"])) {
@@ -294,5 +294,36 @@ class Admin extends AbstractController
         }
 
         Url::redirect("admin/ads");
+    }
+
+    public function editselectedusers()
+    {
+        $checkedUsers = [];
+        if(isset($_POST["checked_users"])) {
+            $checkedUsers = $_POST["checked_users"];
+        }
+
+        $withSelected = $_POST["with_selected"];
+
+        $selectedUsers = User::getCollection($checkedUsers);
+
+        /**
+         * @var \Model\User $selectedUser
+         */
+        foreach ($selectedUsers as $selectedUser) {
+            switch ($withSelected) {
+                case "activate":
+                    $selectedUser->setActive(1);
+                    break;
+
+                case "deactivate":
+                    $selectedUser->setActive(0);
+                    break;
+            }
+
+            $selectedUser->save();
+        }
+
+        Url::redirect("admin/users");
     }
 }
