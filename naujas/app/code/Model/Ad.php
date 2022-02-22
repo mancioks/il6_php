@@ -335,4 +335,13 @@ class Ad extends AbstractModel
         return $ad;
     }
 
+    public function getUser()
+    {
+        $db = new DBHelper();
+        $data = $db->select("id")->from("users")->where("id", $this->userId)->getOne();
+        $user = new User();
+
+        return $user->load($data["id"]);
+    }
+
 }

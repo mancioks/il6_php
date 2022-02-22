@@ -23,6 +23,7 @@
                 <th>Active</th>
                 <th>Vin</th>
                 <th>Views</th>
+                <th>Created</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -48,6 +49,7 @@
                     <td><?= $ad->getActive(); ?></td>
                     <td><?= $ad->getVin(); ?></td>
                     <td><?= $ad->getViews(); ?></td>
+                    <td><?= $ad->getUser()->getEmail(); ?></td>
                     <td>
                         <a href="<?= $this->url('admin/adedit', $ad->getId()); ?>">Edit</a>
                     </td>

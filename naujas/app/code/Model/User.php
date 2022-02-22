@@ -3,6 +3,7 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Helper\ArrayHelper;
 use Helper\DBHelper;
 use Helper\Validator;
 use Model\City;
@@ -202,5 +203,14 @@ class User extends AbstractModel
         }
 
         return $this;
+    }
+
+    public function getAds()
+    {
+        $db = new DBHelper();
+        $data = $db->select("id")->from("ads")->where("user_id", $this->id)->get();
+        $data = ArrayHelper::rowsToIds($data);
+
+        return Ad::getCollection($data);
     }
 }
