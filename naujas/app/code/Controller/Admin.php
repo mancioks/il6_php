@@ -264,4 +264,35 @@ class Admin extends AbstractController
 
         Url::redirect('admin/useredit/' . $userId);
     }
+
+    public function editselected()
+    {
+        $checkedAds = [];
+        if(isset($_POST["checked_ads"])) {
+            $checkedAds = $_POST["checked_ads"];
+        }
+
+        $withSelected = $_POST["with_selected"];
+
+        $selectedAds = Ad::getCollection($checkedAds);
+
+        /**
+         * @var \Model\Ad $selectedAd
+         */
+        foreach ($selectedAds as $selectedAd) {
+            switch ($withSelected) {
+                case "activate":
+                    $selectedAd->setActive(1);
+                    break;
+
+                case "deactivate":
+                    $selectedAd->setActive(0);
+                    break;
+            }
+
+            $selectedAd->save();
+        }
+
+        Url::redirect("admin/ads");
+    }
 }
