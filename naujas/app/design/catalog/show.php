@@ -8,6 +8,30 @@
     <div class="ad-year"><?php echo $this->data['ad']->getYear(); ?></div>
     <?php echo $this->data['ad']->getVin(); ?>
 </div>
+<div class="comments-wrapper">
+    <h2>Komentarai</h2>
+    <?php
+    /**
+     * @var \Model\Comment $comment
+     */
+    ?>
+    <ul>
+        <?php foreach ($this->data['ad']->getComments() as $comment): ?>
+            <li>
+                <div class="comment">
+                    <div class="comment-user"><?= $comment->getUser()->getEmail(); ?></div>
+                    <div class="comment-date"><?= $comment->getCreatedAt(); ?></div>
+                    <div class="comment-comment"><?= $comment->getComment(); ?></div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+    <?php if($this->isUserLogged()): ?>
+        <div class="comment-form-wrapper">
+            <?= $this->data["comment_form"]; ?>
+        </div>
+    <?php endif; ?>
+</div>
 <?php if($this->data["has_related_ads"]): ?>
     <h2>Panašūs skelbimai</h2>
     <div class="list-wrapper">

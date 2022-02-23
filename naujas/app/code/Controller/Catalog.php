@@ -6,6 +6,7 @@ use Helper\FormHelper;
 use Helper\Url;
 use Model\Ad;
 use Core\AbstractController;
+use Model\Comment;
 use Model\Manufacturer;
 use Model\Model;
 
@@ -75,6 +76,13 @@ class Catalog extends AbstractController
 
             $relatedAds = Ad::getRelatedAds($ad, ["limit" => 5]);
 
+            $commentForm = new FormHelper("catalog/comment", "post");
+            $commentForm->textArea("comment", "Komentaras");
+            $commentForm->input(["type"=>"hidden", "name"=>"ad_id", "value"=>$ad->getId()]);
+            $commentForm->input(["type"=>"submit", "name"=>"submit", "value"=>"Rašyti"]);
+
+            $this->data['comment_form'] = $commentForm->getForm();
+
             $this->data['ad'] = $ad;
 
             $this->data['has_related_ads'] = count($relatedAds) > 0;
@@ -87,6 +95,29 @@ class Catalog extends AbstractController
         } else {
             Error::show(404);
         }
+    }
+
+    public function comment()
+    {
+        if(!$this->isUserLogged()) {
+            Url::redirect("user/login");
+        }
+
+        $ad = new Ad();
+        $ad->load($_POST["ad_id"]);
+
+        if(!isset($_POST["comment"]) || strlen($_POST["comment"]) <= 5) {
+            Url::redirect("catalog/show/" . $ad->getSlug());
+        }
+
+        $comment = new Comment();
+        $comment->setUserId($_SESSION["user_id"]);
+        $comment->setAdId($_POST["ad_id"]);
+        $comment->setComment($_POST["comment"]);
+
+        $comment->save();
+
+        Url::redirect("catalog/show/" . $ad->getSlug());
     }
 
     public function create()

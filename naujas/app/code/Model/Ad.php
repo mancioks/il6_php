@@ -341,4 +341,9 @@ class Ad extends AbstractModel
         return $user->load($data["id"]);
     }
 
+    public function getComments()
+    {
+        return Comment::getCommentsByAdId($this->id);
+    }
+
 }

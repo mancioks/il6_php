@@ -3,13 +3,15 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Helper\ArrayHelper;
+use Helper\DBHelper;
 
 class Comment extends AbstractModel
 {
     protected const TABLE = 'comments';
     private $comment;
-    private $user_id;
-    private $ad_id;
+    private $userId;
+    private $adId;
     private $createdAt;
 
     public function getComment()
@@ -24,22 +26,22 @@ class Comment extends AbstractModel
 
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
-    public function setUserId($user_id): void
+    public function setUserId($userId): void
     {
-        $this->user_id = $user_id;
+        $this->userId = $userId;
     }
 
     public function getAdId()
     {
-        return $this->ad_id;
+        return $this->adId;
     }
 
-    public function setAdId($ad_id): void
+    public function setAdId($adId): void
     {
-        $this->ad_id = $ad_id;
+        $this->adId = $adId;
     }
 
     public function getCreatedAt()
@@ -47,19 +49,40 @@ class Comment extends AbstractModel
         return $this->createdAt;
     }
 
-    public function setCreatedAt($createdAt): void
-    {
-        $this->createdAt = $createdAt;
-    }
-
     protected function assignData()
     {
         $this->data = [
             "comment" => $this->comment,
-            "user_id" => $this->user_id,
-            "ad_id" => $this->ad_id,
-            "created_at" => $this->createdAt
+            "user_id" => $this->userId,
+            "ad_id" => $this->adId
         ];
+    }
+
+    public function load($id)
+    {
+        $db = new DBHelper();
+        $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
+
+        $this->id = $data["id"];
+        $this->comment = $data["comment"];
+        $this->userId = $data["user_id"];
+        $this->adId = $data["ad_id"];
+        $this->createdAt = $data["created_at"];
+    }
+
+    public static function getCommentsByAdId($adId)
+    {
+        $db = new DBHelper();
+        $data = $db->select("id")->from(self::TABLE)->where("ad_id", $adId)->get();
+        $ids = ArrayHelper::rowsToIds($data);
+
+        return self::getCollection($ids);
+    }
+
+    public function getUser()
+    {
+        $user = new User();
+        return $user->load($this->userId);
     }
 
 }
