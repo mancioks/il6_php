@@ -21,6 +21,8 @@ class User extends AbstractModel
     private $incorrectTries;
     private $roleId;
 
+    protected const TABLE = 'users';
+
     public function getName()
     {
         return $this->name;
@@ -105,11 +107,6 @@ class User extends AbstractModel
         return $this->incorrectTries;
     }
 
-    public function __construct()
-    {
-        $this->table = "users";
-    }
-
     public function getRoleId()
     {
         return $this->roleId;
@@ -137,7 +134,7 @@ class User extends AbstractModel
 
     public function load($id) {
         $db = new DBHelper();
-        $data = $db->select()->from("users")->where("id", $id)->getOne();
+        $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
 
         $this->id = $data['id'];
         $this->name = $data['name'];
@@ -158,7 +155,7 @@ class User extends AbstractModel
 
     public static function checkLoginCredentials($email, $password) {
         $db = new DBHelper();
-        $rez = $db->select("id")->from("users")->where("email", $email)->andWhere("password", $password)->getOne();
+        $rez = $db->select("id")->from(self::TABLE)->where("email", $email)->andWhere("password", $password)->getOne();
 
         return isset($rez["id"]) ? $rez["id"] : false;
     }
@@ -167,7 +164,7 @@ class User extends AbstractModel
     {
         $db = new DBHelper();
 
-        $data = $db->select('id')->from("users")->get();
+        $data = $db->select('id')->from(self::TABLE)->get();
 
         $users = [];
 
@@ -183,7 +180,7 @@ class User extends AbstractModel
     public static function canLogin($userEmail)
     {
         $db = new DBHelper();
-        $data = $db->select("active")->from("users")->where("email", $userEmail)->getOne();
+        $data = $db->select("active")->from(self::TABLE)->where("email", $userEmail)->getOne();
 
         return isset($data["active"]) && $data["active"] == 1;
     }
@@ -196,7 +193,7 @@ class User extends AbstractModel
     public function loadUserByEmail($email)
     {
         $db = new DBHelper();
-        $user = $db->select("id")->from("users")->where("email", $email)->getOne();
+        $user = $db->select("id")->from(self::TABLE)->where("email", $email)->getOne();
 
         if(isset($user["id"])) {
             $this->load($user["id"]);

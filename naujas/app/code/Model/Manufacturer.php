@@ -9,6 +9,8 @@ class Manufacturer extends AbstractModel
 {
     private $name;
 
+    protected const TABLE = 'manufacturers';
+
     public function setName($name)
     {
         $this->name = $name;
@@ -17,11 +19,6 @@ class Manufacturer extends AbstractModel
     public function getName()
     {
         return $this->name;
-    }
-
-    public function __construct()
-    {
-        $this->table = "manufacturers";
     }
 
     public function assignData()
@@ -34,7 +31,7 @@ class Manufacturer extends AbstractModel
     public function load($id)
     {
         $db = new DBHelper();
-        $data = $db->select()->from($this->table)->where("id", $id)->getOne();
+        $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
 
         $this->id = $data["id"];
         $this->name = $data["name"];
@@ -45,7 +42,7 @@ class Manufacturer extends AbstractModel
     public static function getManufacturers()
     {
         $db = new DBHelper();
-        $data = $db->select("id")->from("manufacturers")->get();
+        $data = $db->select("id")->from(self::TABLE)->get();
 
         $manufacturers = [];
         foreach ($data as $value) {

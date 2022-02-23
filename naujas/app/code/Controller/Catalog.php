@@ -262,7 +262,7 @@ class Catalog extends AbstractController
         $latestId = $latestAd->getId();
 
         $slug = Url::generateSlug($_POST["title"]);
-        while (!Ad::isValueUniq("slug", $slug, 'ads')) {
+        while (!Ad::isValueUniq("slug", $slug)) {
             $latestId += 1;
             $slug = $slug . "-" . $latestId;
         }

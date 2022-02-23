@@ -23,6 +23,8 @@ class Ad extends AbstractModel
     private $vin;
     private $views;
 
+    protected const TABLE = 'ads';
+
 
     /**
      * @return mixed
@@ -172,11 +174,6 @@ class Ad extends AbstractModel
         return $this->active;
     }
 
-    public function __construct()
-    {
-        $this->table = "ads";
-    }
-
     public function setSlug($slug)
     {
         $this->slug = $slug;
@@ -237,7 +234,7 @@ class Ad extends AbstractModel
     public function load($id)
     {
         $db = new DBHelper();
-        $data = $db->select()->from($this->table)->where("id", $id)->getOne();
+        $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
 
         $this->id = $data["id"];
         $this->title = $data["title"];
@@ -258,7 +255,7 @@ class Ad extends AbstractModel
     public function loadBySlug($slug)
     {
         $db = new DBHelper();
-        $data = $db->select("id")->from($this->table)->where("slug", $slug)->getOne();
+        $data = $db->select("id")->from(self::TABLE)->where("slug", $slug)->getOne();
 
         if(!empty($data)) {
             $this->load($data["id"]);
@@ -269,7 +266,7 @@ class Ad extends AbstractModel
     {
         $db = new DBHelper();
 
-        $db->select("id")->from("ads");
+        $db->select("id")->from(self::TABLE);
         if(!$withDeactivated) {
             $db->where("active", 1);
         }
@@ -292,7 +289,7 @@ class Ad extends AbstractModel
         $exceptId = $currentAd->getId();
 
         $db->select("id")
-            ->from("ads")
+            ->from(self::TABLE)
             ->where("active", 1)
             ->andWhere("model_id", $modelId)
             ->andWhere("id", $exceptId, "<>");
@@ -309,7 +306,7 @@ class Ad extends AbstractModel
     {
         $db = new DBHelper();
 
-        $db->select("id")->from("ads")
+        $db->select("id")->from(self::TABLE)
             ->where("title", "%".$search."%", "LIKE")->andWhere("active", 1)
             ->orWhere("description", "%".$search."%", "LIKE")->andWhere("active", 1);
 
@@ -327,7 +324,7 @@ class Ad extends AbstractModel
     public static function getLast()
     {
         $db = new DBHelper();
-        $data = $db->select("id")->from("ads")->orderBy("id")->limit(1)->getOne();
+        $data = $db->select("id")->from(self::TABLE)->orderBy("id")->limit(1)->getOne();
 
         $ad = new Ad();
         $ad->load($data["id"]);

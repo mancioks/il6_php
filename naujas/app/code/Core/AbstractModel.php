@@ -7,18 +7,14 @@ use Model\Ad;
 
 class AbstractModel
 {
-    protected $table;
+    protected const TABLE = '';
+
     protected $data;
     protected $id;
 
     public function getId()
     {
         return $this->id;
-    }
-
-    private function getTable()
-    {
-        return $this->table;
     }
 
     protected function assignData(){
@@ -39,24 +35,24 @@ class AbstractModel
     private function create()
     {
         $db = new DBHelper();
-        $db->insert($this->table, $this->data)->exec();
+        $db->insert(static::TABLE, $this->data)->exec();
     }
 
     private function update() {
         $db = new DBHelper();
-        $db->update($this->table, $this->data)->where('id', $this->id)->exec();
+        $db->update(static::TABLE, $this->data)->where('id', $this->id)->exec();
     }
 
     public function delete() {
         $db = new DBHelper();
-        $db->delete()->from($this->table)->where("id", $this->id)->exec();
+        $db->delete()->from(static::TABLE)->where("id", $this->id)->exec();
     }
 
-    public static function isValueUniq($column, $value, $table)
+    public static function isValueUniq($column, $value)
     {
         $db = new DBHelper();
 
-        $rez = $db->select()->from($table)->where($column, $value)->get();
+        $rez = $db->select()->from(static::TABLE)->where($column, $value)->get();
 
         return empty($rez);
         //return $rez;
@@ -65,8 +61,7 @@ class AbstractModel
     public static function count()
     {
         $db = new DBHelper();
-        $currentModel = new static();
-        $count = $db->select("count(*)")->from($currentModel->table)->getOne();
+        $count = $db->select("count(*)")->from(static::TABLE)->getOne();
 
         return $count[0];
     }
@@ -86,8 +81,7 @@ class AbstractModel
     public static function exists($id)
     {
         $db = new DBHelper();
-        $currentModel = new static();
-        $data = $db->select('id')->from($currentModel->table)->where("id", $id)->getOne();
+        $data = $db->select('id')->from(static::TABLE)->where("id", $id)->getOne();
 
         return isset($data['id']);
     }
