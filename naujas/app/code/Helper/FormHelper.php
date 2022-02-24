@@ -44,6 +44,14 @@ class FormHelper
         $this->form .= '</select><br>';
     }
 
+    public function label($text, $for = null) {
+        $this->form .= '<label';
+        if($for) {
+            $this->form .= ' for="'.$for.'"';
+        }
+        $this->form .= '>'. $text .'</label><br>';
+    }
+
     public function selectGroup($data)
     {
         $this->form .= '<select name="' . $data["name"] . '">';

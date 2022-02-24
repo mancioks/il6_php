@@ -3,7 +3,9 @@
 namespace Controller;
 
 use Helper\FormHelper;
+use Helper\Logger;
 use Helper\Url;
+use Helper\Validator;
 use Model\Ad;
 use Core\AbstractController;
 use Model\Comment;
@@ -74,11 +76,15 @@ class Catalog extends AbstractController
             $ad->setViews($ad->getViews() + 1);
             $ad->save();
 
+            Validator::generateSecurityQuestion();
+
             $relatedAds = Ad::getRelatedAds($ad, ["limit" => 5]);
 
             $commentForm = new FormHelper("catalog/comment", "post");
             $commentForm->textArea("comment", "Komentaras");
             $commentForm->input(["type"=>"hidden", "name"=>"ad_id", "value"=>$ad->getId()]);
+            $commentForm->label(Validator::getSecurityQuestion(), "security_answer");
+            $commentForm->input(["type"=>"text", "name"=>"security_answer", "placeholder"=>"Answer", "id" => "security_answer"]);
             $commentForm->input(["type"=>"submit", "name"=>"submit", "value"=>"Rašyti"]);
 
             $this->data['comment_form'] = $commentForm->getForm();
@@ -90,6 +96,8 @@ class Catalog extends AbstractController
 
             $this->data['title'] = $ad->getTitle();
             $this->data['meta_description'] = $ad->getDescription();
+
+            $this->data['errors'] = Error::getErrors();
 
             $this->render("catalog/show");
         } else {
@@ -103,10 +111,20 @@ class Catalog extends AbstractController
             Url::redirect("user/login");
         }
 
+        //Logger::log(Validator::getSecurityAnswer());
+        //Logger::log($_POST["security_answer"]);
+
         $ad = new Ad();
         $ad->load($_POST["ad_id"]);
 
         if(!isset($_POST["comment"]) || strlen($_POST["comment"]) <= 5) {
+            Error::store("Per trumpas komentaras, min 6 simboliai");
+        }
+        if(!isset($_POST["security_answer"]) || $_POST["security_answer"] != Validator::getSecurityAnswer()) {
+            Error::store("Blogas atsakymas");
+        }
+
+        if(Error::hasErrors()) {
             Url::redirect("catalog/show/" . $ad->getSlug());
         }
 

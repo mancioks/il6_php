@@ -9,6 +9,13 @@
     <?php echo $this->data['ad']->getVin(); ?>
 </div>
 <div class="comments-wrapper">
+    <?php if($this->data["errors"]): ?>
+        <ul class="errors">
+            <?php foreach ($this->data["errors"] as $error): ?>
+                <li><?= $error; ?></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
     <h2>Komentarai</h2>
     <?php
     /**
