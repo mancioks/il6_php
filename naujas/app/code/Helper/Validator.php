@@ -3,9 +3,6 @@
 namespace Helper;
 
 class Validator {
-    private const PLUS_OPERATOR = "+";
-    private const SUBTR_OPERATOR = "-";
-    private const MULTIP_OPERATOR = "*";
 
     public static function checkPassword($pass, $pass2) {
         return $pass === $pass2;
@@ -31,13 +28,13 @@ class Validator {
 
         $string = $number1 . " " . $operators[$operator] . " " . $number2;
 
-        if($operators[$operator] == self::PLUS_OPERATOR) {
+        if($operators[$operator] == "+") {
             $answer = $number1 + $number2;
         }
-        if($operators[$operator] == self::SUBTR_OPERATOR) {
+        if($operators[$operator] == "-") {
             $answer = $number1 - $number2;
         }
-        if($operators[$operator] == self::MULTIP_OPERATOR) {
+        if($operators[$operator] == "*") {
             $answer = $number1 * $number2;
         }
 
