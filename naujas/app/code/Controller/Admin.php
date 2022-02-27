@@ -129,7 +129,7 @@ class Admin extends AbstractController
 
             $this->renderAdmin("ads/edit");
         } else {
-            Error::show(404, true);
+            Url::redirect("admin/ads");
         }
     }
 
@@ -234,7 +234,7 @@ class Admin extends AbstractController
 
             $this->renderAdmin("users/edit");
         } else {
-            Error::show(404, true);
+            Url::redirect("admin/users");
         }
     }
 

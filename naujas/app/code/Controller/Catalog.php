@@ -4,6 +4,7 @@ namespace Controller;
 
 use Helper\FormHelper;
 use Helper\Logger;
+use Helper\Messages;
 use Helper\Url;
 use Helper\Validator;
 use Model\Ad;
@@ -97,7 +98,7 @@ class Catalog extends AbstractController
             $this->data['title'] = $ad->getTitle();
             $this->data['meta_description'] = $ad->getDescription();
 
-            $this->data['errors'] = Error::getErrors();
+            $this->data['messages'] = Messages::getMessages();
 
             $this->render("catalog/show");
         } else {
@@ -118,13 +119,13 @@ class Catalog extends AbstractController
         $ad->load($_POST["ad_id"]);
 
         if(!isset($_POST["comment"]) || strlen($_POST["comment"]) <= 5) {
-            Error::store("Per trumpas komentaras, min 6 simboliai");
+            Messages::store("Per trumpas komentaras", 0);
         }
         if(!isset($_POST["security_answer"]) || $_POST["security_answer"] != Validator::getSecurityAnswer()) {
-            Error::store("Blogas atsakymas");
+            Messages::store("Blogas atsakymas i saugos klausima", 0);
         }
 
-        if(Error::hasErrors()) {
+        if(Messages::hasErrors()) {
             Url::redirect("catalog/show/" . $ad->getSlug());
         }
 
@@ -134,6 +135,8 @@ class Catalog extends AbstractController
         $comment->setComment($_POST["comment"]);
 
         $comment->save();
+
+        Messages::store("Komentaras parašytas", 2);
 
         Url::redirect("catalog/show/" . $ad->getSlug());
     }

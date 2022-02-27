@@ -309,15 +309,27 @@ h2{
 .comments-wrapper .comment-form-wrapper{
     margin-top: 20px;
 }
-ul.errors li{
+ul.messages li{
     display: block;
-    background: #c94e4e;
-    color: #fff;
+    background: #ddd;
+    color: #000;
     padding: 10px;
     width: 50%;
     border-radius: 8px;
     margin-bottom: 5px;
 }
-ul.errors{
+ul.messages li.message-error{
+    background: #c94e4e;
+    color: #fff;
+}
+ul.messages li.message-warning{
+    background: #ecbf1f;
+    color: #000;
+}
+ul.messages li.message-info{
+    background: #2290c0;
+    color: #fff;
+}
+ul.messages{
     margin-bottom: 20px;
 }

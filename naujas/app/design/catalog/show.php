@@ -9,10 +9,10 @@
     <?php echo $this->data['ad']->getVin(); ?>
 </div>
 <div class="comments-wrapper">
-    <?php if($this->data["errors"]): ?>
-        <ul class="errors">
-            <?php foreach ($this->data["errors"] as $error): ?>
-                <li><?= $error; ?></li>
+    <?php if($this->data["messages"]): ?>
+        <ul class="messages">
+            <?php foreach ($this->data["messages"] as $message): ?>
+                <li class="<?= $message["class"]; ?>"><?= $message["message"]; ?></li>
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
