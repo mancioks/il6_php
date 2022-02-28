@@ -3,6 +3,13 @@
  * @var \Model\User $user
  */
 ?>
+<?php if($this->data["messages"]): ?>
+    <ul class="messages">
+        <?php foreach ($this->data["messages"] as $message): ?>
+            <li class="<?= $message["class"]; ?>"><?= $message["message"]; ?></li>
+        <?php endforeach; ?>
+    </ul>
+<?php endif; ?>
 <form action="<?= $this->url("admin/editselectedusers") ?>" method="post">
     Pažymėtus:
     <select name="with_selected">
