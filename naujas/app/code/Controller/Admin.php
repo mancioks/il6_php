@@ -4,6 +4,7 @@ namespace Controller;
 
 use Core\AbstractController;
 use Helper\FormHelper;
+use Helper\Messages;
 use Helper\Url;
 use Helper\Validator;
 use Model\Ad;
@@ -25,6 +26,7 @@ class Admin extends AbstractController
 
     public function index()
     {
+        $this->data["messages"] = Messages::getMessages();
         $this->renderAdmin('index');
     }
 
@@ -32,6 +34,9 @@ class Admin extends AbstractController
     {
         $users = User::getAll();
         $this->data['users'] = $users;
+
+        $this->data["messages"] = Messages::getMessages();
+
         $this->renderAdmin('users/list');
 
     }
@@ -41,6 +46,9 @@ class Admin extends AbstractController
         $ads = Ad::getAll(["order_by" => "id", "clause" => "DESC"], true);
 
         $this->data['ads'] = $ads;
+
+        $this->data["messages"] = Messages::getMessages();
+
         $this->renderAdmin('ads/list');
     }
 
@@ -127,6 +135,8 @@ class Admin extends AbstractController
             $this->data["form"] = $form->getForm();
             $this->data["ad_title"] = $ad->getTitle();
 
+            $this->data["messages"] = Messages::getMessages();
+
             $this->renderAdmin("ads/edit");
         } else {
             Url::redirect("admin/ads");
@@ -153,6 +163,8 @@ class Admin extends AbstractController
         $ad->setVin($_POST["vin"]);
 
         $ad->save();
+
+        Messages::store("Skelbimo informacija atnaujinta", 2);
 
         Url::redirect("admin/adedit/" . $ad->getId());
     }
@@ -232,6 +244,8 @@ class Admin extends AbstractController
 
             $this->data['form'] = $form->getForm();
 
+            $this->data['messages'] = Messages::getMessages();
+
             $this->renderAdmin("users/edit");
         } else {
             Url::redirect("admin/users");
@@ -261,6 +275,8 @@ class Admin extends AbstractController
         }
 
         $user->save();
+
+        Messages::store("Vartotojo informacija atnaujinta", 2);
 
         Url::redirect('admin/useredit/' . $userId);
     }
@@ -293,6 +309,8 @@ class Admin extends AbstractController
             $selectedAd->save();
         }
 
+        Messages::store("Pasirinktų skelbimų informacija atnaujinta", 2);
+
         Url::redirect("admin/ads");
     }
 
@@ -323,6 +341,8 @@ class Admin extends AbstractController
 
             $selectedUser->save();
         }
+
+        Messages::store("Pasirinktų vartotojų informacija atnaujinta", 2);
 
         Url::redirect("admin/users");
     }
