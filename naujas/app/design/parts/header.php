@@ -29,7 +29,7 @@ use Helper\Url;
 
                 <?php if ($this->isUserLogged()): ?>
                     <li><a href="/catalog/create">Pridėti</a></li>
-                    <li><a href="/user/">Vartotojai</a></li>
+                    <li><a href="/catalog/myads">Mano skelbimai</a></li>
                     <li class="float-right">
                         <a href="/user/logout" class="button log-out">Atsijungti</a>
                     </li>

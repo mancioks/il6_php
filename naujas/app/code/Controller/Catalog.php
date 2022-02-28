@@ -13,6 +13,7 @@ use Core\AbstractController;
 use Model\Comment;
 use Model\Manufacturer;
 use Model\Model;
+use Model\User as UserModel;
 
 class Catalog extends AbstractController implements ControllerInterface
 {
@@ -105,6 +106,24 @@ class Catalog extends AbstractController implements ControllerInterface
         } else {
             Error::show(404);
         }
+    }
+
+    public function myads()
+    {
+        if(!$this->isUserLogged()) {
+            Url::redirect("user/login");
+        }
+
+        $currentUser = new UserModel();
+        $currentUser->load($_SESSION["user_id"]);
+
+        $ads = $currentUser->getAds();
+        if(count($ads) == 0)
+            $ads = false;
+
+        $this->data["ads"] = $currentUser->getAds();
+
+        $this->render("catalog/myads");
     }
 
     public function comment()
