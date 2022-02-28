@@ -3,12 +3,13 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Core\Interfaces\ModelInterface;
 use Helper\ArrayHelper;
 use Helper\DBHelper;
 use Helper\Validator;
 use Model\City;
 
-class User extends AbstractModel
+class User extends AbstractModel implements ModelInterface
 {
     private $name;
     private $lastName;
@@ -117,7 +118,7 @@ class User extends AbstractModel
         $this->roleId = $roleId;
     }
 
-    protected function assignData()
+    public function assignData()
     {
         $this->data = [
             'name' => $this->name,

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Core\Interfaces\ControllerInterface;
 use Helper\FormHelper;
 use Helper\Logger;
 use Helper\Messages;
@@ -13,7 +14,7 @@ use Model\Comment;
 use Model\Manufacturer;
 use Model\Model;
 
-class Catalog extends AbstractController
+class Catalog extends AbstractController implements ControllerInterface
 {
     public function index()
     {
