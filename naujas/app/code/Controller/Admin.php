@@ -11,8 +11,9 @@ use Model\City;
 use Model\Manufacturer;
 use Model\Model;
 use Model\User;
+use Core\Interfaces\ControllerInterface;
 
-class Admin extends AbstractController
+class Admin extends AbstractController implements ControllerInterface
 {
     public function __construct()
     {

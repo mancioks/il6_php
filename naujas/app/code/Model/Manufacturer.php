@@ -3,9 +3,10 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Core\Interfaces\ModelInterface;
 use Helper\DBHelper;
 
-class Manufacturer extends AbstractModel
+class Manufacturer extends AbstractModel implements ModelInterface
 {
     private $name;
 

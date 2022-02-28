@@ -3,10 +3,11 @@
 namespace Model;
 
 use Core\AbstractModel;
+use Core\Interfaces\ModelInterface;
 use Helper\ArrayHelper;
 use Helper\DBHelper;
 
-class Ad extends AbstractModel
+class Ad extends AbstractModel implements ModelInterface
 {
     private $title;
     private $description;
@@ -23,7 +24,7 @@ class Ad extends AbstractModel
     private $vin;
     private $views;
 
-    protected const TABLE = 'ads';
+    public const TABLE = 'ads';
 
 
     /**
@@ -212,7 +213,7 @@ class Ad extends AbstractModel
         $this->views = $views;
     }
 
-    protected function assignData()
+    public function assignData()
     {
         $this->data = [
             'title' => $this->title,
