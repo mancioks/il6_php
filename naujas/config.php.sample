@@ -1,0 +1,11 @@
+<?php
+
+define('BASE_URL', 'http://localhost/');
+
+define('SERVERNAME', '');
+define('DB_USER', '');
+define('DB_PASS', '');
+define('DB_NAME', '');
+
+define('PROJECT_ROOT_DIR', __DIR__);
+define('DEBUG_MODE', true);
