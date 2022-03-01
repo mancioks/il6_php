@@ -1,4 +1,4 @@
 var
-adminer.php
+public/adminer.php
 vendor
 config.php
