@@ -8,6 +8,9 @@
     <div class="ad-year"><?php echo $this->data['ad']->getYear(); ?></div>
     <?php echo $this->data['ad']->getVin(); ?>
 </div>
+<div class="write-message">
+    <a href="<?= $this->url("inbox/create", $this->data['ad']->getUser()->getId()); ?>">Rašyti pardavėjui</a>
+</div>
 <div class="comments-wrapper">
     <?php if($this->data["messages"]): ?>
         <ul class="messages">

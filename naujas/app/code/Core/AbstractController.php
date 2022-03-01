@@ -3,6 +3,7 @@
 namespace Core;
 
 use Helper\Url;
+use Model\Message;
 use Model\User;
 
 class AbstractController
@@ -13,6 +14,9 @@ class AbstractController
         $this->data = [];
         $this->data["title"] = "Autoplius";
         $this->data["meta_description"] = '';
+        if($this->isUserLogged()) {
+            $this->data["new_messages"] = Message::newMessagesCount();
+        }
     }
 
     protected function render($template)
