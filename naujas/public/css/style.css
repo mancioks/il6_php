@@ -355,7 +355,42 @@ ul.messages{
     padding: 20px;
     max-width: 50%;
     line-height: 20px;
+    margin-bottom: 20px;
 }
 .messages-wrapper .message b{
     font-weight: 800;
+}
+.conversation-wrapper{
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+}
+.conversation-wrapper .message{
+    background: #ddd;
+    border-radius: 8px;
+    width: 65%;
+    padding: 20px;
+}
+.conversation-wrapper .message.own-message{
+    background: #8ac2d7;
+    float: right;
+}
+.conversation-message-wrapper{
+    margin-bottom: 10px;
+}
+.conversation-message-wrapper::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.message.has-new-messages{
+    background: #eaead4;
+}
+.messages-wrapper a{
+    text-decoration: none;
+    color:#000;
+}
+
+.conversation-users{
+    margin-bottom: 20px;
 }

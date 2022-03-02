@@ -20,16 +20,7 @@ class Inbox extends AbstractController implements ControllerInterface
     }
     public function index()
     {
-        $messages = Message::getMessages($_SESSION["user_id"], "received");
-
-        if($messages) {
-            foreach ($messages as $message) {
-                $message->setSeen(1);
-                $message->save();
-            }
-        }
-
-        $this->data["messages"] = $messages;
+        $this->data["conversations"] = Message::getConversations($_SESSION["user_id"]);
         $this->render("inbox/list");
     }
 
@@ -45,6 +36,11 @@ class Inbox extends AbstractController implements ControllerInterface
             }
         }
 
+        $form->input([
+            "type" => "text",
+            "name" => "title",
+            "placeholder" => "Pavadinimas"
+        ]);
         $form->label("Gavėjas");
         $form->select([
             "name" => "to_user_id",
@@ -68,19 +64,75 @@ class Inbox extends AbstractController implements ControllerInterface
     public function send()
     {
         $message = new Message();
+
+        $reply = false;
+
+        if(isset($_POST["conversation_id"])) {
+            $reply = true;
+        }
+
         $message->setFromUserId($_SESSION["user_id"]);
-        $message->setToUserId($_POST["to_user_id"]);
         $message->setMessage($_POST["message"]);
         $message->setSeen(0);
 
-        $message->save();
+        if($reply) {
+            $conversation = new Message();
+            $conversation->load($_POST["conversation_id"]);
 
-        Url::redirect("inbox/sent");
+            if($conversation->getFromUserId() != $_SESSION["user_id"]) {
+                $message->setToUserId($conversation->getFromUserId());
+            } else {
+                $message->setToUserId($conversation->getToUserId());
+            }
+
+            $message->setReplyTo($_POST["conversation_id"]);
+            $message->setTitle("reply to: ". $conversation->getTitle());
+
+            $message->save();
+            Url::redirect("inbox/conversation/".$conversation->getId());
+        } else {
+            $message->setToUserId($_POST["to_user_id"]);
+            $message->setTitle($_POST["title"]);
+            $message->setReplyTo(0);
+
+            $message->save();
+            Url::redirect("inbox");
+        }
     }
 
-    public function sent()
+    public function conversation($conversationId)
     {
-        $this->data["messages"] = Message::getMessages($_SESSION["user_id"], "sent");
-        $this->render("inbox/sent");
+        $messages = Message::getMessages($conversationId);
+
+        $count = 0;
+        if($messages) {
+            foreach ($messages as $message) {
+                if($message->getSeen() == 0 && $message->getToUserId() == $_SESSION["user_id"]) {
+                    $message->setSeen(1);
+                    $message->save();
+                    $count++;
+                }
+            }
+        }
+
+        $form = new FormHelper("inbox/send", "POST");
+        $form->input([
+            "type" => "hidden",
+            "name" => "conversation_id",
+            "value" => $conversationId
+        ]);
+        $form->textArea("message", "Atsakymas");
+        $form->input([
+            "type" => "submit",
+            "value" => "Atsakyti",
+            "name" => "submit"
+        ]);
+
+        $this->data['new_messages'] -= $count;
+
+        $this->data["messages"] = $messages;
+        $this->data["reply_form"] = $form->getForm();
+
+        $this->render("inbox/conversation");
     }
 }
