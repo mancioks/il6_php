@@ -343,3 +343,19 @@ ul.messages{
     font-weight: 800;
     text-decoration: none;
 }
+.inbox-new-messages{
+    color:#c94e4e;
+}
+.messages-wrapper{
+    margin-top: 30px;
+}
+.messages-wrapper .message{
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 50%;
+    line-height: 20px;
+}
+.messages-wrapper .message b{
+    font-weight: 800;
+}
