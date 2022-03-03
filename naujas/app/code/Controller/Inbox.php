@@ -6,6 +6,7 @@ use Core\AbstractController;
 use Core\Interfaces\ControllerInterface;
 use Helper\FormHelper;
 use Helper\Messages;
+use Helper\StringHelper;
 use Helper\Url;
 use Model\Message;
 use Model\User;
@@ -65,39 +66,40 @@ class Inbox extends AbstractController implements ControllerInterface
     {
         $message = new Message();
 
-        $reply = false;
+        $message->setFromUserId($_SESSION["user_id"]);
+        $message->setMessage(StringHelper::filterBadWords($_POST["message"]));
+        $message->setSeen(0);
+        $message->setToUserId($_POST["to_user_id"]);
+        $message->setTitle($_POST["title"]);
+        $message->setReplyTo(0);
+        $message->save();
 
-        if(isset($_POST["conversation_id"])) {
-            $reply = true;
-        }
+        Url::redirect("inbox");
+    }
+
+    public function reply()
+    {
+        $message = new Message();
 
         $message->setFromUserId($_SESSION["user_id"]);
-        $message->setMessage($_POST["message"]);
+        $message->setMessage(StringHelper::filterBadWords($_POST["message"]));
         $message->setSeen(0);
 
-        if($reply) {
-            $conversation = new Message();
-            $conversation->load($_POST["conversation_id"]);
+        $conversation = new Message();
+        $conversation->load($_POST["conversation_id"]);
 
-            if($conversation->getFromUserId() != $_SESSION["user_id"]) {
-                $message->setToUserId($conversation->getFromUserId());
-            } else {
-                $message->setToUserId($conversation->getToUserId());
-            }
-
-            $message->setReplyTo($_POST["conversation_id"]);
-            $message->setTitle("reply to: ". $conversation->getTitle());
-
-            $message->save();
-            Url::redirect("inbox/conversation/".$conversation->getId());
+        if($conversation->getFromUserId() != $_SESSION["user_id"]) {
+            $message->setToUserId($conversation->getFromUserId());
         } else {
-            $message->setToUserId($_POST["to_user_id"]);
-            $message->setTitle($_POST["title"]);
-            $message->setReplyTo(0);
-
-            $message->save();
-            Url::redirect("inbox");
+            $message->setToUserId($conversation->getToUserId());
         }
+
+        $message->setReplyTo($_POST["conversation_id"]);
+        $message->setTitle("reply to: ". $conversation->getTitle());
+
+        $message->save();
+
+        Url::redirect("inbox/conversation/".$conversation->getId());
     }
 
     public function conversation($conversationId)
@@ -115,7 +117,7 @@ class Inbox extends AbstractController implements ControllerInterface
             }
         }
 
-        $form = new FormHelper("inbox/send", "POST");
+        $form = new FormHelper("inbox/reply", "POST");
         $form->input([
             "type" => "hidden",
             "name" => "conversation_id",
