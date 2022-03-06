@@ -193,27 +193,27 @@ class Message extends AbstractModel implements ModelInterface
         return $user->load($this->toUserId);
     }
 
-    public static function newMessagesCount()
+    public static function newMessagesCount($userId)
     {
         $db = new DBHelper();
         $db->select("count(*)")
             ->from(self::TABLE)
-            ->where("to_user_id", $_SESSION["user_id"])
+            ->where("to_user_id", $userId)
             ->andWhere("seen", "0");
         $data = $db->getOne();
 
         return $data[0];
     }
 
-    public function newMessagesInConversation()
+    public function newMessagesInConversation($userId)
     {
         $db = new DBHelper();
         $db->select("count(*)")
             ->from(self::TABLE)
-            ->where("to_user_id", $_SESSION["user_id"])
+            ->where("to_user_id", $userId)
             ->andWhere("seen", "0")
             ->andWhere("reply_to", $this->id)
-            ->orWhere("to_user_id", $_SESSION["user_id"])
+            ->orWhere("to_user_id", $userId)
             ->andWhere("seen", "0")
             ->andWhere("id", $this->id);
         $data = $db->getOne();

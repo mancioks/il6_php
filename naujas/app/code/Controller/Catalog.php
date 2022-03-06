@@ -24,9 +24,9 @@ class Catalog extends AbstractController implements ControllerInterface
             "clause" => "ASC"
         ];
 
-        if (isset($_GET["order_by"]) && isset($_GET["clause"])) {
-            $order["order_by"] = $_GET["order_by"];
-            $order["clause"] = $_GET["clause"];
+        if ($this->request->get("order_by") && $this->request->get("clause")) {
+            $order["order_by"] = $this->request->get("order_by");
+            $order["clause"] = $this->request->get("clause");
         }
 
         $quantity = Ad::count();
@@ -36,8 +36,8 @@ class Catalog extends AbstractController implements ControllerInterface
 
         $page = 1;
 
-        if (isset($_GET["page"])) {
-            $page = $_GET["page"];
+        if ($this->request->get("page")) {
+            $page = $this->request->get("page");
         }
 
         if ($page > $pages) {
@@ -115,7 +115,7 @@ class Catalog extends AbstractController implements ControllerInterface
         }
 
         $currentUser = new UserModel();
-        $currentUser->load($_SESSION["user_id"]);
+        $currentUser->load($this->session->get("user_id"));
 
         $ads = $currentUser->getAds();
         if(count($ads) == 0)
@@ -132,16 +132,13 @@ class Catalog extends AbstractController implements ControllerInterface
             Url::redirect("user/login");
         }
 
-        //Logger::log(Validator::getSecurityAnswer());
-        //Logger::log($_POST["security_answer"]);
-
         $ad = new Ad();
-        $ad->load($_POST["ad_id"]);
+        $ad->load($this->request->post("ad_id"));
 
-        if(!isset($_POST["comment"]) || strlen($_POST["comment"]) <= 5) {
+        if(!$this->request->post("comment") || strlen($this->request->post("comment")) <= 5) {
             Messages::store("Per trumpas komentaras", 0);
         }
-        if(!isset($_POST["security_answer"]) || $_POST["security_answer"] != Validator::getSecurityAnswer()) {
+        if(!$this->request->post("security_answer") || $this->request->post("security_answer") != Validator::getSecurityAnswer()) {
             Messages::store("Blogas atsakymas i saugos klausima", 0);
         }
 
@@ -150,9 +147,9 @@ class Catalog extends AbstractController implements ControllerInterface
         }
 
         $comment = new Comment();
-        $comment->setUserId($_SESSION["user_id"]);
-        $comment->setAdId($_POST["ad_id"]);
-        $comment->setComment($_POST["comment"]);
+        $comment->setUserId($this->session->get("user_id"));
+        $comment->setAdId($this->request->post("ad_id"));
+        $comment->setComment($this->request->post("comment"));
 
         $comment->save();
 
@@ -163,7 +160,7 @@ class Catalog extends AbstractController implements ControllerInterface
 
     public function create()
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect("user/login");
         }
 
@@ -231,14 +228,14 @@ class Catalog extends AbstractController implements ControllerInterface
 
     public function edit($adId)
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect("user/login");
         }
 
         $ad = new Ad();
         $ad->load($adId);
 
-        if ($_SESSION["user_id"] != $ad->getUserId()) {
+        if ($this->session->get("user_id") != $ad->getUserId()) {
             Url::redirect("catalog/all");
         }
 
@@ -324,7 +321,7 @@ class Catalog extends AbstractController implements ControllerInterface
 
     public function insert()
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect("user/login");
         }
 
@@ -333,25 +330,25 @@ class Catalog extends AbstractController implements ControllerInterface
         $latestAd = Ad::getLast();
         $latestId = $latestAd->getId();
 
-        $slug = Url::generateSlug($_POST["title"]);
+        $slug = Url::generateSlug($this->request->post("title"));
         while (!Ad::isValueUniq("slug", $slug)) {
             $latestId += 1;
             $slug = $slug . "-" . $latestId;
         }
 
         $model = new Model();
-        $model->load($_POST["model_id"]);
+        $model->load($this->request->post("model_id"));
 
-        $ad->setTitle($_POST["title"]);
-        $ad->setDescription($_POST["description"]);
+        $ad->setTitle($this->request->post("title"));
+        $ad->setDescription($this->request->post("description"));
         $ad->setManufacturerId($model->getManufacturerId());
-        $ad->setModelId($_POST["model_id"]);
-        $ad->setPrice($_POST["price"]);
-        $ad->setYear($_POST["year"]);
+        $ad->setModelId($this->request->post("model_id"));
+        $ad->setPrice($this->request->post("price"));
+        $ad->setYear($this->request->post("year"));
         $ad->setTypeId(1);
-        $ad->setUserId($_SESSION["user_id"]);
-        $ad->setImageUrl($_POST["image_url"]);
-        $ad->setVin($_POST["vin"]);
+        $ad->setUserId($this->session->get("user_id"));
+        $ad->setImageUrl($this->request->post("image_url"));
+        $ad->setVin($this->request->post("vin"));
         $ad->setActive(1);
         $ad->setViews(0);
         $ad->setSlug($slug);
@@ -363,26 +360,26 @@ class Catalog extends AbstractController implements ControllerInterface
 
     public function update()
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect("user/login");
         }
 
-        $adId = $_POST["ad_id"];
+        $adId = $this->request->post("ad_id");
         $ad = new Ad();
         $ad->load($adId);
 
         $model = new Model();
-        $model->load($_POST["model_id"]);
+        $model->load($this->request->post("model_id"));
 
-        $ad->setTitle($_POST["title"]);
-        $ad->setModelId($_POST["model_id"]);
+        $ad->setTitle($this->request->post("title"));
+        $ad->setModelId($this->request->post("model_id"));
         $ad->setManufacturerId($model->getManufacturerId());
-        $ad->setDescription($_POST["description"]);
-        $ad->setPrice($_POST["price"]);
-        $ad->setYear($_POST["year"]);
-        $ad->setImageUrl($_POST["image_url"]);
-        $ad->setActive($_POST["active"]);
-        $ad->setVin($_POST["vin"]);
+        $ad->setDescription($this->request->post("description"));
+        $ad->setPrice($this->request->post("price"));
+        $ad->setYear($this->request->post("year"));
+        $ad->setImageUrl($this->request->post("image_url"));
+        $ad->setActive($this->request->post("active"));
+        $ad->setVin($this->request->post("vin"));
 
         $ad->save();
 
@@ -392,10 +389,10 @@ class Catalog extends AbstractController implements ControllerInterface
 
     public function results()
     {
-        if (isset($_GET["search"]) && !empty($_GET["search"])) {
-            $ads = Ad::search($_GET["search"]);
+        if (!empty($this->request->get("search"))) {
+            $ads = Ad::search($this->request->get("search"));
 
-            $this->data['search_query'] = $_GET["search"];
+            $this->data['search_query'] = $this->request->get("search");
             $this->data['ads'] = $ads;
             $this->data['quantity'] = count($ads);
         } else {
@@ -412,7 +409,7 @@ class Catalog extends AbstractController implements ControllerInterface
         $ad = new Ad();
         $ad->load($id);
 
-        if ($ad->getUserId() == $_SESSION["user_id"]) {
+        if ($ad->getUserId() == $this->session->get("user_id")) {
             $ad->setActive(0);
         }
 

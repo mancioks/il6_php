@@ -21,7 +21,7 @@ class Inbox extends AbstractController implements ControllerInterface
     }
     public function index()
     {
-        $this->data["conversations"] = Message::getConversations($_SESSION["user_id"]);
+        $this->data["conversations"] = Message::getConversations($this->session->get("user_id"));
         $this->render("inbox/list");
     }
 
@@ -32,7 +32,7 @@ class Inbox extends AbstractController implements ControllerInterface
         $usersList = [];
         $users = User::getAll();
         foreach ($users as $user) {
-            if($user->getId() != $_SESSION["user_id"]) {
+            if($user->getId() != $this->session->get("user_id")) {
                 $usersList[$user->getId()] = $user->getName(). " " .$user->getLastName();
             }
         }
@@ -66,11 +66,11 @@ class Inbox extends AbstractController implements ControllerInterface
     {
         $message = new Message();
 
-        $message->setFromUserId($_SESSION["user_id"]);
-        $message->setMessage(StringHelper::filterBadWords($_POST["message"]));
+        $message->setFromUserId($this->session->get("user_id"));
+        $message->setMessage(StringHelper::filterBadWords($this->request->post("message")));
         $message->setSeen(0);
-        $message->setToUserId($_POST["to_user_id"]);
-        $message->setTitle($_POST["title"]);
+        $message->setToUserId($this->request->post("to_user_id"));
+        $message->setTitle($this->request->post("title"));
         $message->setReplyTo(0);
         $message->save();
 
@@ -81,20 +81,20 @@ class Inbox extends AbstractController implements ControllerInterface
     {
         $message = new Message();
 
-        $message->setFromUserId($_SESSION["user_id"]);
-        $message->setMessage(StringHelper::filterBadWords($_POST["message"]));
+        $message->setFromUserId($this->session->get("user_id"));
+        $message->setMessage(StringHelper::filterBadWords($this->request->post("message")));
         $message->setSeen(0);
 
         $conversation = new Message();
-        $conversation->load($_POST["conversation_id"]);
+        $conversation->load($this->request->post("conversation_id"));
 
-        if($conversation->getFromUserId() != $_SESSION["user_id"]) {
+        if($conversation->getFromUserId() != $this->session->get("user_id")) {
             $message->setToUserId($conversation->getFromUserId());
         } else {
             $message->setToUserId($conversation->getToUserId());
         }
 
-        $message->setReplyTo($_POST["conversation_id"]);
+        $message->setReplyTo($this->request->post("conversation_id"));
         $message->setTitle("reply to: ". $conversation->getTitle());
 
         $message->save();
@@ -109,7 +109,7 @@ class Inbox extends AbstractController implements ControllerInterface
         $count = 0;
         if($messages) {
             foreach ($messages as $message) {
-                if($message->getSeen() == 0 && $message->getToUserId() == $_SESSION["user_id"]) {
+                if($message->getSeen() == 0 && $message->getToUserId() == $this->session->get("user_id")) {
                     $message->setSeen(1);
                     $message->save();
                     $count++;

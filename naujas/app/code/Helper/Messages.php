@@ -2,12 +2,18 @@
 
 namespace Helper;
 
+use Model\Session;
+
 class Messages
 {
+    private static $session;
+
     private static function initMessages()
     {
-        if(!isset($_SESSION["messages"])) {
-            $_SESSION["messages"] = [];
+        self::$session = new Session();
+
+        if(!self::$session->get("messages")) {
+            self::$session->set("messages")->value([]);
         }
     }
 
@@ -27,14 +33,14 @@ class Messages
         if($type == 1) $cssClass = "message-warning";
         if($type == 2) $cssClass = "message-info";
 
-        $_SESSION["messages"][] = ["message" => $message, "type" => $type, "class" => $cssClass];
+        self::$session->set("messages")->add(["message" => $message, "type" => $type, "class" => $cssClass]);
     }
 
     public static function hasMessages()
     {
         self::initMessages();
 
-        return !empty($_SESSION["messages"]);
+        return !empty(self::$session->get("messages"));
     }
 
     public static function hasErrors()
@@ -43,7 +49,7 @@ class Messages
 
         $errorFound = false;
 
-        foreach ($_SESSION["messages"] as $message) {
+        foreach (self::$session->get("messages") as $message) {
             if($message["type"] == 0)
                 $errorFound = true;
         }
@@ -55,8 +61,8 @@ class Messages
     {
         self::initMessages();
 
-        $messages = $_SESSION["messages"];
-        $_SESSION["messages"] = [];
+        $messages = self::$session->get("messages");
+        self::$session->set("messages")->value([]);
 
         return !empty($messages) ? $messages : false;
     }
