@@ -22,6 +22,7 @@ use Helper\Url;
                 <li><a href="/admin">Pradžia</a></li>
                 <li><a href="/admin/users">Vartotojai</a></li>
                 <li><a href="/admin/ads">Skelbimai</a></li>
+                <li><a href="/admin/reports">Ataskaitos</a></li>
                 <li class="float-right">
                     <a href="/user/logout" class="button log-out">Atsijungti</a>
                 </li>

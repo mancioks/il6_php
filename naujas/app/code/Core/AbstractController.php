@@ -44,6 +44,16 @@ class AbstractController
         include_once PROJECT_ROOT_DIR . '/app/design/admin/parts/footer.php';
     }
 
+    protected function getPdfTemplate($template)
+    {
+        ob_start();
+        include_once PROJECT_ROOT_DIR . '/app/design/pdf/' . $template . '.php';
+        $pdfContent = ob_get_contents();
+        ob_end_clean();
+
+        return $pdfContent;
+    }
+
     protected function isUserLogged()
     {
         return !empty($this->session->get("user_id"));

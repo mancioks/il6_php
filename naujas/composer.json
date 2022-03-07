@@ -13,5 +13,8 @@
         "psr-4": {
             "": "app/code"
         }
+    },
+    "require": {
+        "dompdf/dompdf": "^1.2"
     }
 }
