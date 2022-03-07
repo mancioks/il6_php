@@ -16756,3 +16756,25 @@
 [2022-03-07 21:09:05] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
 [2022-03-07 21:09:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
 [2022-03-07 21:09:05] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:10:19] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:10:19] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:10:20] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:10:20] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:10:47] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:10:47] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:10:47] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:10:47] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:10:48] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:10:48] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:11:04] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:04] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
+[2022-03-07 21:11:04] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:04] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
+[2022-03-07 21:11:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:05] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
+[2022-03-07 21:11:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:05] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
+[2022-03-07 21:11:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:05] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
+[2022-03-07 21:11:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:11:05] SELECT id FROM ads WHERE active = "1"  ORDER BY id DESC  LIMIT 5
