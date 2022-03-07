@@ -2,6 +2,8 @@
 
 namespace Helper;
 
+use Model\Session;
+
 class Validator {
 
     public static function checkPassword($pass, $pass2) {
@@ -40,16 +42,19 @@ class Validator {
 
         $math = ["question" => $string, "answer" => $answer];
 
-        $_SESSION["security_question"] = $math;
+        $session = new Session();
+        $session->set("security_question")->value($math);
     }
 
     public static function getSecurityQuestion()
     {
-        return $_SESSION["security_question"]["question"];
+        $session = new Session();
+        return $session->get("security_question")["question"];
     }
 
     public static function getSecurityAnswer()
     {
-        return $_SESSION["security_question"]["answer"];
+        $session = new Session();
+        return $session->get("security_question")["answer"];
     }
 }

@@ -137,21 +137,24 @@ class User extends AbstractModel implements ModelInterface
         $db = new DBHelper();
         $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
 
-        $this->id = $data['id'];
-        $this->name = $data['name'];
-        $this->lastName = $data['lastname'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->phone = $data['phone'];
-        $this->cityId = $data['city_id'];
-        $this->active = $data['active'];
-        $this->incorrectTries = $data['incorrect_tries'];
-        $this->roleId = $data['role_id'];
+        if(!empty($data)) {
+            $this->id = $data['id'];
+            $this->name = $data['name'];
+            $this->lastName = $data['lastname'];
+            $this->email = $data['email'];
+            $this->password = $data['password'];
+            $this->phone = $data['phone'];
+            $this->cityId = $data['city_id'];
+            $this->active = $data['active'];
+            $this->incorrectTries = $data['incorrect_tries'];
+            $this->roleId = $data['role_id'];
 
-        $city = new City();
-        $this->city = $city->load($this->cityId);
+            $city = new City();
+            $this->city = $city->load($this->cityId);
 
-        return $this;
+            return $this;
+        }
+        return false;
     }
 
     public static function checkLoginCredentials($email, $password) {

@@ -14,6 +14,8 @@ class Message extends AbstractModel implements ModelInterface
     private $toUserId;
     private $seen;
     private $createdAt;
+    private $replyTo;
+    private $title;
 
     /**
      * @return mixed
@@ -95,6 +97,26 @@ class Message extends AbstractModel implements ModelInterface
         $this->createdAt = $createdAt;
     }
 
+    public function getReplyTo()
+    {
+        return $this->replyTo;
+    }
+
+    public function setReplyTo($replyTo)
+    {
+        $this->replyTo = $replyTo;
+    }
+
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
     public const TABLE = 'inbox';
 
     public function assignData()
@@ -103,7 +125,9 @@ class Message extends AbstractModel implements ModelInterface
             'message' => $this->message,
             'from_user_id' => $this->fromUserId,
             'to_user_id' => $this->toUserId,
-            'seen' => $this->seen
+            'seen' => $this->seen,
+            'reply_to' => $this->replyTo,
+            'title' => $this->title
         ];
     }
 
@@ -118,6 +142,8 @@ class Message extends AbstractModel implements ModelInterface
         $this->toUserId = $data["to_user_id"];
         $this->seen = $data["seen"];
         $this->createdAt = $data["created_at"];
+        $this->replyTo = $data["reply_to"];
+        $this->title = $data["title"];
     }
 
     /**
@@ -125,16 +151,30 @@ class Message extends AbstractModel implements ModelInterface
      * @param string $type received|sent
      * @return void
      */
-    public static function getMessages($userId, $type)
+    public static function getMessages($conversationId)
     {
         $db = new DBHelper();
-        $db->select("id")->from(self::TABLE);
-        if($type == "received") {
-            $db->where("to_user_id", $userId);
-        }
-        if($type == "sent") {
-            $db->where("from_user_id", $userId);
-        }
+        $db->select("id")
+            ->from(self::TABLE)
+            ->where("reply_to", $conversationId)
+            ->orWhere("id", $conversationId)
+            ->orderBy("id", "ASC");
+
+        $ids = $db->get();
+        $ids = ArrayHelper::rowsToIds($ids);
+
+        return Message::getCollection($ids);
+    }
+
+    public static function getConversations($userId)
+    {
+        $db = new DBHelper();
+        $db->select("id")
+            ->from(self::TABLE)
+            ->where("from_user_id", $userId)->andWhere("reply_to", 0)
+            ->orWhere("to_user_id", $userId)->andWhere("reply_to", 0)
+            ->orderBy("id", "DESC");
+
         $ids = $db->get();
         $ids = ArrayHelper::rowsToIds($ids);
 
@@ -153,13 +193,29 @@ class Message extends AbstractModel implements ModelInterface
         return $user->load($this->toUserId);
     }
 
-    public static function newMessagesCount()
+    public static function newMessagesCount($userId)
     {
         $db = new DBHelper();
         $db->select("count(*)")
             ->from(self::TABLE)
-            ->where("to_user_id", $_SESSION["user_id"])
+            ->where("to_user_id", $userId)
             ->andWhere("seen", "0");
+        $data = $db->getOne();
+
+        return $data[0];
+    }
+
+    public function newMessagesInConversation($userId)
+    {
+        $db = new DBHelper();
+        $db->select("count(*)")
+            ->from(self::TABLE)
+            ->where("to_user_id", $userId)
+            ->andWhere("seen", "0")
+            ->andWhere("reply_to", $this->id)
+            ->orWhere("to_user_id", $userId)
+            ->andWhere("seen", "0")
+            ->andWhere("id", $this->id);
         $data = $db->getOne();
 
         return $data[0];

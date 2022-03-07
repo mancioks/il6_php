@@ -11,7 +11,7 @@
 <div class="list-wrapper">
     <ol class="ads-list">
         <?php foreach ($this->data['ads'] as $ad): ?>
-            <?php if ($ad->getActive() == 1 || $this->isUserLogged() && $ad->getUserId() == $_SESSION["user_id"]): ?>
+            <?php if ($ad->getActive() == 1 || $this->isUserLogged() && $ad->getUserId() == $this->session->get("user_id")): ?>
                 <li <?php if($ad->getActive() == 0) echo 'class="inactive-ad"'; ?>>
                     <div class="ad-image-wrapper">
                         <img src="<?php echo $ad->getImageUrl(); ?>"/>
@@ -20,7 +20,7 @@
                         <?php echo $ad->getTitle(); ?>
                     </a>
                     <?php if ($this->isUserLogged()): ?>
-                        <?php if ($ad->getUserId() == $_SESSION["user_id"]): ?>
+                        <?php if ($ad->getUserId() == $this->session->get("user_id")): ?>
                             <a href="<?php echo $this->url("catalog/edit", $ad->getId()) ?>"
                                class="button-edit">Edit</a>
                         <?php endif; ?>

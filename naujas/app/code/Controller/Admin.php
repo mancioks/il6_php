@@ -146,22 +146,22 @@ class Admin extends AbstractController implements ControllerInterface
 
     public function adupdate()
     {
-        $adId = $_POST["ad_id"];
+        $adId = $this->request->post("ad_id");
         $ad = new Ad();
         $ad->load($adId);
 
         $model = new Model();
-        $model->load($_POST["model_id"]);
+        $model->load($this->request->post("model_id"));
 
-        $ad->setTitle($_POST["title"]);
-        $ad->setModelId($_POST["model_id"]);
+        $ad->setTitle($this->request->post("title"));
+        $ad->setModelId($this->request->post("model_id"));
         $ad->setManufacturerId($model->getManufacturerId());
-        $ad->setDescription($_POST["description"]);
-        $ad->setPrice($_POST["price"]);
-        $ad->setYear($_POST["year"]);
-        $ad->setImageUrl($_POST["image_url"]);
-        $ad->setActive($_POST["active"]);
-        $ad->setVin($_POST["vin"]);
+        $ad->setDescription($this->request->post("description"));
+        $ad->setPrice($this->request->post("price"));
+        $ad->setYear($this->request->post("year"));
+        $ad->setImageUrl($this->request->post("image_url"));
+        $ad->setActive($this->request->post("active"));
+        $ad->setVin($this->request->post("vin"));
 
         $ad->save();
 
@@ -255,23 +255,23 @@ class Admin extends AbstractController implements ControllerInterface
 
     public function userupdate()
     {
-        $userId = $_POST["user_id"];
+        $userId = $this->request->post("user_id");
         $user = new User();
         $user->load($userId);
 
-        $user->setName($_POST["name"]);
-        $user->setLastName($_POST["last_name"]);
-        $user->setPhone($_POST["phone"]);
-        $user->setCityId($_POST["city_id"]);
-        $user->setActive($_POST["active"]);
+        $user->setName($this->request->post("name"));
+        $user->setLastName($this->request->post("last_name"));
+        $user->setPhone($this->request->post("phone"));
+        $user->setCityId($this->request->post("city_id"));
+        $user->setActive($this->request->post("active"));
 
-        if (!empty($_POST["password"]) && Validator::checkPassword($_POST["password"], $_POST["password2"])) {
-            $user->setPassword(md5($_POST["password"]));
+        if (!empty($this->request->post("password")) && Validator::checkPassword($this->request->post("password"), $this->request->post("password2"))) {
+            $user->setPassword(md5($this->request->post("password")));
         }
 
-        if ($user->getEmail() != $_POST["email"]) {
-            if (Validator::checkEmail($_POST["email"]) && User::isValueUniq("email", $_POST["email"])) {
-                $user->setEmail($_POST["email"]);
+        if ($user->getEmail() != $this->request->post("email")) {
+            if (Validator::checkEmail($this->request->post("email")) && User::isValueUniq("email", $this->request->post("email"))) {
+                $user->setEmail($this->request->post("email"));
             }
         }
 
@@ -285,11 +285,11 @@ class Admin extends AbstractController implements ControllerInterface
     public function editselectedads()
     {
         $checkedAds = [];
-        if(isset($_POST["checked_ads"])) {
-            $checkedAds = $_POST["checked_ads"];
+        if($this->request->post("checked_ads")) {
+            $checkedAds = $this->request->post("checked_ads");
         }
 
-        $withSelected = $_POST["with_selected"];
+        $withSelected = $this->request->post("with_selected");
 
         $selectedAds = Ad::getCollection($checkedAds);
 
@@ -318,11 +318,11 @@ class Admin extends AbstractController implements ControllerInterface
     public function editselectedusers()
     {
         $checkedUsers = [];
-        if(isset($_POST["checked_users"])) {
-            $checkedUsers = $_POST["checked_users"];
+        if($this->request->post("checked_users")) {
+            $checkedUsers = $this->request->post("checked_users");
         }
 
-        $withSelected = $_POST["with_selected"];
+        $withSelected = $this->request->post("with_selected");
 
         $selectedUsers = User::getCollection($checkedUsers);
 
