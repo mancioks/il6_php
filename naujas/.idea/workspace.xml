@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="55fc2077-134b-4c8f-a78e-42343579c487" name="Changes" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/vendor/composer" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/phenx/php-svg-lib" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="249U6MfgoED8gMtC8enkxdPALE5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\pamokos-php\naujas" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\pamokos-php\naujas\public" />
+      <recent name="C:\xampp\htdocs\pamokos-php\naujas" />
+      <recent name="C:\xampp\htdocs\pamokos-php\naujas\app\images" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="55fc2077-134b-4c8f-a78e-42343579c487" name="Changes" comment="" />
+      <created>1643042119716</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1643042119716</updated>
+      <workItem from="1643042120942" duration="4958000" />
+      <workItem from="1643129700778" duration="5323000" />
+      <workItem from="1643212843614" duration="9097000" />
+      <workItem from="1643302618079" duration="10817000" />
+      <workItem from="1643644524658" duration="7679000" />
+      <workItem from="1643734340854" duration="11358000" />
+      <workItem from="1643752268790" duration="25000" />
+      <workItem from="1643816986830" duration="10788000" />
+      <workItem from="1643902941195" duration="7511000" />
+      <workItem from="1644249471886" duration="10823000" />
+      <workItem from="1644294601733" duration="436000" />
+      <workItem from="1644339458735" duration="9262000" />
+      <workItem from="1644397837315" duration="4909000" />
+      <workItem from="1644422086710" duration="15871000" />
+      <workItem from="1644512377161" duration="8497000" />
+      <workItem from="1644829184988" duration="64000" />
+      <workItem from="1644853841865" duration="14956000" />
+      <workItem from="1644914356548" duration="594000" />
+      <workItem from="1644933520400" duration="12000" />
+      <workItem from="1644944586377" duration="8090000" />
+      <workItem from="1645027120846" duration="12867000" />
+      <workItem from="1645117384154" duration="12199000" />
+      <workItem from="1645360916447" duration="7436000" />
+      <workItem from="1645424440208" duration="2000" />
+      <workItem from="1645459899848" duration="12706000" />
+      <workItem from="1645537852324" duration="34000" />
+      <workItem from="1645549055487" duration="4410000" />
+      <workItem from="1645608922020" duration="8000" />
+      <workItem from="1645631644733" duration="7493000" />
+      <workItem from="1645714444527" duration="1367000" />
+      <workItem from="1645721617637" duration="6798000" />
+      <workItem from="1645990152996" duration="4902000" />
+      <workItem from="1646063646984" duration="19400000" />
+      <workItem from="1646236695731" duration="9828000" />
+      <workItem from="1646326904964" duration="8812000" />
+      <workItem from="1646596165438" duration="3914000" />
+      <workItem from="1646668834083" duration="10992000" />
+      <workItem from="1646682626693" duration="15000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
