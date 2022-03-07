@@ -2,3 +2,4 @@ var
 public/adminer.php
 vendor
 config.php
+.idea
