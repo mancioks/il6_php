@@ -109,8 +109,8 @@ class User extends AbstractController implements ControllerInterface
 
     public function check()
     {
-        $email = $_POST["email"];
-        $password = md5($_POST["password"]);
+        $email = $this->request->post("email");
+        $password = md5($this->request->post("password"));
 
         $userId = UserModel::checkLoginCredentials($email, $password);
 
@@ -125,9 +125,9 @@ class User extends AbstractController implements ControllerInterface
 
             //echo $user->getCity()->getName();
 
-            $_SESSION["logged"] = true;
-            $_SESSION["user_id"] = $userId;
-            $_SESSION["user"] = $user;
+            $this->session->set("logged")->value(true);
+            $this->session->set("user_id")->value($userId);
+            $this->session->set("user")->value($user);
 
             Url::redirect('');
         } else {
@@ -150,11 +150,11 @@ class User extends AbstractController implements ControllerInterface
 
     public function edit()
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect('user/login');
         }
 
-        $userId = $_SESSION["user_id"];
+        $userId = $this->session->get("user_id");
         $user = new UserModel();
         $user->load($userId);
 
@@ -227,21 +227,21 @@ class User extends AbstractController implements ControllerInterface
 
     public function create()
     {
-        $passMatch = Validator::checkPassword($_POST['password'], $_POST['password2']);
-        $isEmailValid = Validator::checkEmail($_POST['email']);
-        $isEmailUniq = UserModel::isValueUniq("email", $_POST['email']);
+        $passMatch = Validator::checkPassword($this->request->post("password"), $this->request->post("password2"));
+        $isEmailValid = Validator::checkEmail($this->request->post("email"));
+        $isEmailUniq = UserModel::isValueUniq("email", $this->request->post("email"));
 
         //echo $isEmailUniq;
 
         if ($passMatch && $isEmailValid && $isEmailUniq) {
             $user = new UserModel();
 
-            $user->setName($_POST["name"]);
-            $user->setLastName($_POST["last_name"]);
-            $user->setEmail($_POST["email"]);
-            $user->setPhone($_POST["phone"]);
-            $user->setPassword(md5($_POST["password"]));
-            $user->setCityId($_POST["city_id"]);
+            $user->setName($this->request->post("name"));
+            $user->setLastName($this->request->post("last_name"));
+            $user->setEmail($this->request->post("email"));
+            $user->setPhone($this->request->post("phone"));
+            $user->setPassword(md5($this->request->post("password")));
+            $user->setCityId($this->request->post("city_id"));
             $user->setActive(1);
             $user->setIncorrectTries(0);
             $user->setActive(1);
@@ -257,26 +257,26 @@ class User extends AbstractController implements ControllerInterface
 
     public function update()
     {
-        if (!isset($_SESSION["user_id"])) {
+        if (!$this->session->get("user_id")) {
             Url::redirect('user/login');
         }
 
-        $userId = $_SESSION["user_id"];
+        $userId = $this->session->get("user_id");
         $user = new UserModel();
         $user->load($userId);
 
-        $user->setName($_POST["name"]);
-        $user->setLastName($_POST["last_name"]);
-        $user->setPhone($_POST["phone"]);
-        $user->setCityId($_POST["city_id"]);
+        $user->setName($this->request->post("name"));
+        $user->setLastName($this->request->post("last_name"));
+        $user->setPhone($this->request->post("phone"));
+        $user->setCityId($this->request->post("city_id"));
 
-        if (!empty($_POST["password"]) && Validator::checkPassword($_POST["password"], $_POST["password2"])) {
-            $user->setPassword(md5($_POST["password"]));
+        if (!empty($this->request->post("password")) && Validator::checkPassword($this->request->post("password"), $this->request->post("password2"))) {
+            $user->setPassword(md5($this->request->post("password")));
         }
 
-        if ($user->getEmail() != $_POST["email"]) {
-            if (Validator::checkEmail($_POST["email"]) && UserModel::isValueUniq("email", $_POST["email"])) {
-                $user->setEmail($_POST["email"]);
+        if ($user->getEmail() != $this->request->post("email")) {
+            if (Validator::checkEmail($this->request->post("email")) && UserModel::isValueUniq("email", $this->request->post("email"))) {
+                $user->setEmail($this->request->post("email"));
             }
         }
 

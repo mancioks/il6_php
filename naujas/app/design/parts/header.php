@@ -30,6 +30,11 @@ use Helper\Url;
                 <?php if ($this->isUserLogged()): ?>
                     <li><a href="/catalog/create">Pridėti</a></li>
                     <li><a href="/catalog/myads">Mano skelbimai</a></li>
+                    <li>
+                        <a href="/inbox" <?php if($this->data["new_messages"] > 0) echo ' class="inbox-new-messages"'; ?>'>
+                            Žinutės <?php if($this->data["new_messages"] > 0) echo "(".$this->data["new_messages"].")"; ?>
+                        </a>
+                    </li>
                     <li class="float-right">
                         <a href="/user/logout" class="button log-out">Atsijungti</a>
                     </li>

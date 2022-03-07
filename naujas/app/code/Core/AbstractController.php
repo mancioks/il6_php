@@ -3,16 +3,27 @@
 namespace Core;
 
 use Helper\Url;
+use Model\Message;
+use Model\Request;
+use Model\Session;
 use Model\User;
 
 class AbstractController
 {
     protected $data;
+    protected $request;
+    protected $session;
 
     public function __construct() {
+        $this->request = new Request();
+        $this->session = new Session();
+
         $this->data = [];
         $this->data["title"] = "Autoplius";
         $this->data["meta_description"] = '';
+        if($this->isUserLogged()) {
+            $this->data["new_messages"] = Message::newMessagesCount($this->session->get("user_id"));
+        }
     }
 
     protected function render($template)
@@ -35,7 +46,7 @@ class AbstractController
 
     protected function isUserLogged()
     {
-        return isset($_SESSION["user_id"]);
+        return !empty($this->session->get("user_id"));
     }
 
     public function url($path, $param = null) {
@@ -51,7 +62,7 @@ class AbstractController
     {
         if($this->isUserLogged()){
             $user = new User();
-            $user->load($_SESSION['user_id']);
+            $user->load($this->session->get("user_id"));
             if($user->getRoleId() == 1) {
                 return true;
             }
