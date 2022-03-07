@@ -5,7 +5,7 @@
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'bcfc41f17fc100fec2f497f17253003a264c3d60',
+        'reference' => 'd52193a96ae081a61ace11bf77b33ed0d3127250',
         'name' => 'mantas/skelbimai',
         'dev' => true,
     ),
@@ -25,7 +25,7 @@
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'bcfc41f17fc100fec2f497f17253003a264c3d60',
+            'reference' => 'd52193a96ae081a61ace11bf77b33ed0d3127250',
             'dev_requirement' => false,
         ),
         'phenx/php-font-lib' => array(
