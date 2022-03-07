@@ -16752,3 +16752,7 @@
 [2022-03-07 21:03:52] SELECT * FROM ads WHERE id = "9" 
 [2022-03-07 21:03:52] SELECT * FROM users WHERE id = "38" 
 [2022-03-07 21:03:52] SELECT * FROM cities WHERE id = "5" 
+[2022-03-07 21:09:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:09:05] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
+[2022-03-07 21:09:05] Connection failed: SQLSTATE[HY000] [1049] Unknown database 'ads'
+[2022-03-07 21:09:05] SELECT count(*) FROM inbox WHERE to_user_id = "38" AND seen = "0" 
