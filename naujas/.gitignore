@@ -1,3 +1,5 @@
 var
 public/adminer.php
 config.php
+vendor
+.idea
