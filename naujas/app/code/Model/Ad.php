@@ -251,6 +251,7 @@ class Ad extends AbstractModel implements ModelInterface
         $this->slug = $data["slug"];
         $this->vin = $data["vin"];
         $this->views = $data["views"];
+        $this->createdAt = $data["created_at"];
     }
 
     public function loadBySlug($slug)

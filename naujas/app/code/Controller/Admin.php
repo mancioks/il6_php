@@ -13,9 +13,12 @@ use Model\Manufacturer;
 use Model\Model;
 use Model\User;
 use Core\Interfaces\ControllerInterface;
+use Dompdf\Dompdf;
 
 class Admin extends AbstractController implements ControllerInterface
 {
+    protected $dompdf;
+
     public function __construct()
     {
         parent::__construct();
@@ -251,6 +254,36 @@ class Admin extends AbstractController implements ControllerInterface
         } else {
             Url::redirect("admin/users");
         }
+    }
+
+    public function reports()
+    {
+        $this->renderAdmin("reports/index");
+    }
+
+    public function adsreport()
+    {
+        $this->dompdf = new Dompdf();
+
+        $ads = Ad::getAll([], true);
+
+        $viewsCount = 0;
+        $priceCount = 0;
+
+        foreach ($ads as $ad) {
+            $viewsCount += $ad->getViews();
+            $priceCount += $ad->getPrice();
+        }
+
+        $this->data["ads"] = $ads;
+        $this->data["views_count"] = $viewsCount;
+        $this->data["price_count"] = $priceCount;
+
+
+        $this->dompdf->loadHtml($this->getPdfTemplate("ads"));
+        $this->dompdf->render();
+        $this->dompdf->stream("adsReport.pdf", array("Attachment" => false));
+        exit();
     }
 
     public function userupdate()

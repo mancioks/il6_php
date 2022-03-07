@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 use Controller\Catalog;
@@ -7,12 +9,13 @@ use Model\Ad;
 
 class Url
 {
-    public static function redirect($route) {
+    public static function redirect(string $route): void
+    {
         header('Location: '.BASE_URL.$route);
         exit();
     }
 
-    public static function link($path, $param = null)
+    public static function link(string $path, ?string $param = null): string
     {
         $link = BASE_URL;
         $link .= $path;
@@ -24,7 +27,7 @@ class Url
         return $link;
     }
 
-    public static function generateSlug($title)
+    public static function generateSlug(string $title): string
     {
 
         $slug = $title;
