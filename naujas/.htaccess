@@ -1,0 +1,10 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) /index.php/$1 [L]
+
+#RewriteCond %{THE_REQUEST} /index\.php/(.+)\sHTTP [NC]
+#RewriteRule ^ /%1 [NE,L,R]
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteRule ^(.+)$ /index.php/$1 [L]
