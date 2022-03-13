@@ -10,9 +10,13 @@ include '../config.php';
 session_start();
 
 //use Controller;
-
+//echo '<pre>';
+//var_dump($_SERVER);
+//exit();
 if(isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] !== '/') {
-    $path = trim($_SERVER['REQUEST_URI'], '/');
+    $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+
+    $path = trim($requestUri, '/');
     $path = explode('/', $path);
 
     $class = ucfirst($path[0]);
