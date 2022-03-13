@@ -11,8 +11,8 @@ session_start();
 
 //use Controller;
 
-if(isset($_SERVER['PATH_INFO']) && $_SERVER['PATH_INFO'] !== '/') {
-    $path = trim($_SERVER['PATH_INFO'], '/');
+if(isset($_SERVER['REQUEST_URI']) && $_SERVER['REQUEST_URI'] !== '/') {
+    $path = trim($_SERVER['REQUEST_URI'], '/');
     $path = explode('/', $path);
 
     $class = ucfirst($path[0]);
