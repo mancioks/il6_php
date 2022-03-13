@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Model;
 
 use Core\AbstractModel;
@@ -9,211 +11,159 @@ use Helper\DBHelper;
 
 class Ad extends AbstractModel implements ModelInterface
 {
-    private $title;
-    private $description;
-    private $manufacturerId;
-    private $modelId;
-    private $price;
-    private $year;
-    private $typeId;
-    private $userId;
-    private $imageUrl;
-    private $active;
-    private $slug;
-    private $createdAt;
-    private $vin;
-    private $views;
+    private string $title;
+    private string $description;
+    private int $manufacturerId;
+    private int $modelId;
+    private float $price;
+    private int $year;
+    private int $typeId;
+    private int $userId;
+    private string $imageUrl;
+    private bool $active;
+    private string $slug;
+    private string $createdAt;
+    private string $vin;
+    private int $views;
 
     public const TABLE = 'ads';
 
-
-    /**
-     * @return mixed
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title)
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @param mixed $description
-     */
-    public function setDescription($description)
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getManufacturerId()
+    public function getManufacturerId(): int
     {
         return $this->manufacturerId;
     }
 
-    /**
-     * @param mixed $manufacturerId
-     */
-    public function setManufacturerId($manufacturerId)
+    public function setManufacturerId(int $manufacturerId): void
     {
         $this->manufacturerId = $manufacturerId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getModelId()
+    public function getModelId(): int
     {
         return $this->modelId;
     }
 
-    /**
-     * @param mixed $modelId
-     */
-    public function setModelId($modelId)
+    public function setModelId(int $modelId): void
     {
         $this->modelId = $modelId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPrice()
+    public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @param mixed $price
-     */
-    public function setPrice($price)
+    public function setPrice(float $price): void
     {
         $this->price = $price;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getYear()
+    public function getYear(): int
     {
         return $this->year;
     }
 
-    /**
-     * @param mixed $year
-     */
-    public function setYear($year)
+    public function setYear(int $year): void
     {
         $this->year = $year;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTypeId()
+    public function getTypeId(): int
     {
         return $this->typeId;
     }
 
-    /**
-     * @param mixed $typeId
-     */
-    public function setTypeId($typeId)
+    public function setTypeId(int $typeId): void
     {
         $this->typeId = $typeId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getUserId()
+    public function getUserId(): int
     {
         return $this->userId;
     }
 
-    /**
-     * @param mixed $userId
-     */
-    public function setUserId($userId)
+    public function setUserId(int $userId): void
     {
         $this->userId = $userId;
     }
 
-    public function setImageUrl($imageUrl)
+    public function setImageUrl(string $imageUrl): void
     {
         $this->imageUrl = $imageUrl;
     }
 
-    public function getImageUrl()
+    public function getImageUrl(): string
     {
         return $this->imageUrl;
     }
 
-    public function setActive($active)
+    public function setActive(bool $active): void
     {
         $this->active = $active;
     }
 
-    public function getActive()
+    public function getActive(): bool
     {
         return $this->active;
     }
 
-    public function setSlug($slug)
+    public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
 
-    public function getSlug()
+    public function getSlug(): string
     {
-        if($this->slug)
-            return $this->slug;
-        else
-            return $this->id;
+        return $this->slug;
     }
 
-    public function getCreatedAt()
+    public function getCreatedAt(): string
     {
         return $this->createdAt;
     }
 
-    public function getVin()
+    public function getVin(): string
     {
         return $this->vin;
     }
 
-    public function setVin($vin)
+    public function setVin(string $vin): void
     {
         $this->vin = $vin;
     }
 
-    public function getViews()
+    public function getViews(): int
     {
         return $this->views;
     }
 
-    public function setViews($views)
+    public function setViews(int $views): void
     {
         $this->views = $views;
     }
 
-    public function assignData()
+    public function assignData(): void
     {
         $this->data = [
             'title' => $this->title,
@@ -232,7 +182,7 @@ class Ad extends AbstractModel implements ModelInterface
         ];
     }
 
-    public function load($id)
+    public function load(int $id): void
     {
         $db = new DBHelper();
         $data = $db->select()->from(self::TABLE)->where("id", $id)->getOne();
@@ -243,18 +193,18 @@ class Ad extends AbstractModel implements ModelInterface
         $this->manufacturerId = $data["manufacturer_id"];
         $this->modelId = $data["model_id"];
         $this->price = $data["price"];
-        $this->year = $data["year"];
+        $this->year = (int)$data["year"];
         $this->typeId = $data["type_id"];
         $this->userId = $data["user_id"];
         $this->imageUrl = $data["image_url"];
-        $this->active = $data["active"];
+        $this->active = (bool)$data["active"];
         $this->slug = $data["slug"];
         $this->vin = $data["vin"];
         $this->views = $data["views"];
         $this->createdAt = $data["created_at"];
     }
 
-    public function loadBySlug($slug)
+    public function loadBySlug(string $slug): void
     {
         $db = new DBHelper();
         $data = $db->select("id")->from(self::TABLE)->where("slug", $slug)->getOne();
@@ -264,7 +214,7 @@ class Ad extends AbstractModel implements ModelInterface
         }
     }
 
-    public static function getAll($params = [], $withDeactivated = false)
+    public static function getAll(array $params = [], bool $withDeactivated = false): array
     {
         $db = new DBHelper();
 
@@ -283,7 +233,7 @@ class Ad extends AbstractModel implements ModelInterface
         return Ad::getCollection($data);
     }
 
-    public static function getRelatedAds($currentAd, $params = [])
+    public static function getRelatedAds(Ad $currentAd, array $params = []): array
     {
         $db = new DBHelper();
 
@@ -304,7 +254,7 @@ class Ad extends AbstractModel implements ModelInterface
         return Ad::getCollection($data);
     }
 
-    public static function search($search, $params = [])
+    public static function search(string $search, array $params = []): array
     {
         $db = new DBHelper();
 
@@ -323,7 +273,7 @@ class Ad extends AbstractModel implements ModelInterface
         return Ad::getCollection($data);
     }
 
-    public static function getLast()
+    public static function getLast(): Ad
     {
         $db = new DBHelper();
         $data = $db->select("id")->from(self::TABLE)->orderBy("id")->limit(1)->getOne();
@@ -334,7 +284,7 @@ class Ad extends AbstractModel implements ModelInterface
         return $ad;
     }
 
-    public function getUser()
+    public function getUser(): User
     {
         $db = new DBHelper();
         $data = $db->select("id")->from("users")->where("id", $this->userId)->getOne();
@@ -343,7 +293,7 @@ class Ad extends AbstractModel implements ModelInterface
         return $user->load($data["id"]);
     }
 
-    public function getComments()
+    public function getComments(): array
     {
         return Comment::getCommentsByAdId($this->id);
     }

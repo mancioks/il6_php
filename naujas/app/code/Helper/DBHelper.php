@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 use \PDO;
@@ -7,8 +9,8 @@ use Helper\Logger;
 
 class DBHelper
 {
-    private $conn;
-    private $sql;
+    private \PDO $conn;
+    private string $sql;
 
     public function __construct()
     {
@@ -25,64 +27,64 @@ class DBHelper
         }
     }
 
-    public function select($fields = '*')
+    public function select(string $fields = '*'): self
     {
         $this->sql .= 'SELECT ' . $fields . ' ';
 
         return $this;
     }
 
-    public function from($table)
+    public function from(string $table): self
     {
         $this->sql .= 'FROM ' . $table . ' ';
         return $this;
     }
 
-    public function where($field, $value, $operator = '=')
+    public function where(string $field, string|int $value, string $operator = '='): self
     {
         $this->sql .= 'WHERE ' . $field . " ". $operator . ' "' . $value . '" ';
         return $this;
     }
 
-    public function andWhere($field, $value, $operator = '=')
+    public function andWhere(string $field, string|int $value, string $operator = '='): self
     {
         $this->sql .= 'AND ' . $field . " " . $operator . ' "' . $value . '" ';
         return $this;
     }
 
-    public function orWhere($field, $value, $operator = '=')
+    public function orWhere(string $field, string|int $value, string $operator = '='): self
     {
         $this->sql .= 'OR ' . $field . " " . $operator . ' "' . $value . '" ';
         return $this;
     }
 
-    public function get()
+    public function get(): array
     {
         $rez = $this->exec();
         return $rez->fetchAll();
     }
 
-    public function delete()
+    public function delete(): self
     {
         $this->sql .= 'DELETE ';
         return $this;
     }
 
-    public function insert($table, $data)
+    public function insert(string $table, array $data):self
     {
         $this->sql .= "INSERT INTO " . $table . " (" . implode(", ", array_keys($data)) . ") VALUES ('" . implode("', '", $data) . "')";
 
         return $this;
     }
 
-    public function orderBy($column, $order = "DESC")
+    public function orderBy(string $column, string $order = "DESC"): self
     {
         $this->sql .= " ORDER BY " . $column . " " . $order . " ";
 
         return $this;
     }
 
-    public function update($table, $data)
+    public function update(string $table, array $data): self
     {
         $update = "";
         foreach ($data as $column => $value) {
@@ -95,7 +97,7 @@ class DBHelper
         return $this;
     }
 
-    public function exec()
+    public function exec(): object
     {
         if(DEBUG_MODE) {
             Logger::log($this->sql);
@@ -103,7 +105,7 @@ class DBHelper
         return $this->conn->query($this->sql);
     }
 
-    public function getOne()
+    public function getOne(): array|bool
     {
         $rez = $this->exec();
         $data = $rez->fetchAll();
@@ -115,7 +117,7 @@ class DBHelper
         }
     }
 
-    public function limit($number)
+    public function limit(int|string $number): self
     {
         $this->sql .= " LIMIT " . $number;
 

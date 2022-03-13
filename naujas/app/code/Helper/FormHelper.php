@@ -1,17 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 class FormHelper
 {
-    private $form;
+    private string $form;
 
     public function __construct($action, $method)
     {
         $this->form = '<form action="' . Url::link($action) . '" method="' . $method . '">';
     }
 
-    public function input($data)
+    public function input(array $data): void
     {
         $this->form .= '<input ';
         foreach ($data as $attribute => $value) {
@@ -20,12 +22,12 @@ class FormHelper
         $this->form .= ' ><br>';
     }
 
-    public function textArea($name, $placeholder)
+    public function textArea(string $name, string $placeholder): void
     {
         $this->form .= '<textarea name="' . $name . '">' . $placeholder . '</textarea><br>';
     }
 
-    public function select($data)
+    public function select(array $data): void
     {
         $this->form .= '<select name="' . $data["name"] . '">';
 
@@ -44,7 +46,8 @@ class FormHelper
         $this->form .= '</select><br>';
     }
 
-    public function label($text, $for = null) {
+    public function label(string $text, string $for = null): void
+    {
         $this->form .= '<label';
         if($for) {
             $this->form .= ' for="'.$for.'"';
@@ -52,7 +55,7 @@ class FormHelper
         $this->form .= '>'. $text .'</label><br>';
     }
 
-    public function selectGroup($data)
+    public function selectGroup(array $data): void
     {
         $this->form .= '<select name="' . $data["name"] . '">';
 
@@ -75,7 +78,7 @@ class FormHelper
         $this->form .= '</select><br>';
     }
 
-    public function getForm()
+    public function getForm(): string
     {
         $this->form .= '</form>';
 

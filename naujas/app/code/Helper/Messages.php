@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 use Model\Session;
 
 class Messages
 {
-    private static $session;
+    private static Session $session;
 
-    private static function initMessages()
+    private static function initMessages(): void
     {
         self::$session = new Session();
 
@@ -24,7 +26,8 @@ class Messages
      *                      2 - info
      * @return void
      */
-    public static function store($message, $type) {
+    public static function store(string $message, int $type): void
+    {
         self::initMessages();
 
         $cssClass = "message-info";
@@ -36,14 +39,14 @@ class Messages
         self::$session->set("messages")->add(["message" => $message, "type" => $type, "class" => $cssClass]);
     }
 
-    public static function hasMessages()
+    public static function hasMessages(): bool
     {
         self::initMessages();
 
         return !empty(self::$session->get("messages"));
     }
 
-    public static function hasErrors()
+    public static function hasErrors(): bool
     {
         self::initMessages();
 
@@ -57,7 +60,7 @@ class Messages
         return $errorFound;
     }
 
-    public static function getMessages()
+    public static function getMessages(): array|bool
     {
         self::initMessages();
 

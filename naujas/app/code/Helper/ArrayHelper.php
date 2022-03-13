@@ -1,10 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 class ArrayHelper
 {
-    public static function rowsToIds($data)
+    /**
+     * @param array $data
+     * @return array
+     */
+    public static function rowsToIds(array $data): array
     {
         $ids = [];
 

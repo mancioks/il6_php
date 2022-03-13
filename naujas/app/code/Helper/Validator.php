@@ -1,20 +1,24 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Helper;
 
 use Model\Session;
 
 class Validator {
 
-    public static function checkPassword($pass, $pass2) {
+    public static function checkPassword(string $pass, string $pass2): bool
+    {
         return $pass === $pass2;
     }
 
-    public static function checkEmail($email) {
+    public static function checkEmail(string $email): false|int
+    {
         return strpos($email, '@');
     }
 
-    public static function generateSecurityQuestion()
+    public static function generateSecurityQuestion(): void
     {
         $number1 = rand(0, 10);
         $number2 = rand(0, 10);
@@ -46,15 +50,15 @@ class Validator {
         $session->set("security_question")->value($math);
     }
 
-    public static function getSecurityQuestion()
+    public static function getSecurityQuestion(): string
     {
         $session = new Session();
         return $session->get("security_question")["question"];
     }
 
-    public static function getSecurityAnswer()
+    public static function getSecurityAnswer(): int
     {
         $session = new Session();
-        return $session->get("security_question")["answer"];
+        return (int)$session->get("security_question")["answer"];
     }
 }

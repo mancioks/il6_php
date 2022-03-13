@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c6c35b84-a856-48a6-b2f5-6aa00cd8036f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/pamokos-php.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pamokos-php.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/for-ciklas.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/for-ciklas.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/reg_forma/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/reg_forma/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/reg_forma/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/reg_forma/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/registracija/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/registracija/helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/registracija/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/registracija/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/registracija/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/registracija/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/registracija/registration.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/registracija/registration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/forms/registracija/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/old/forms/registracija/users.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/functions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/.idea/gumtree.iml" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/.idea/gumtree.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/ad.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/ad.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/catalog.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/catalog.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/create.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/create.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/login.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/parts/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/parts/footer.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/parts/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/parts/header.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/register.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/register.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/registration.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/registration.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gumtree/submitad.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/gumtree/submitad.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Core/Interfaces/ModelInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Core/Interfaces/ModelInterface.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/ArrayHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/ArrayHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/DBHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/DBHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/FormHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/FormHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/Logger.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/Logger.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/Messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/Messages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/StringHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/StringHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Helper/Validator.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Helper/Validator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/naujas/app/code/Model/Ad.php" beforeDir="false" afterPath="$PROJECT_DIR$/naujas/app/code/Model/Ad.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/add.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/add.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/product.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/product.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/products.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/products.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/products/products10-03-2021.csv" beforeDir="false" afterPath="$PROJECT_DIR$/old/products/products10-03-2021.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/core.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/core.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/image/paper.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/image/paper.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/image/rock.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/image/rock.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/image/scissors.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/image/scissors.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/thegame/log.csv" beforeDir="false" afterPath="$PROJECT_DIR$/old/thegame/log.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/trecia-uzd.php" beforeDir="false" afterPath="$PROJECT_DIR$/old/trecia-uzd.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+    <pharConfigPath>$PROJECT_DIR$/naujas/composer.json</pharConfigPath>
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="PhpWorkspaceProjectConfiguration">
+    <include_path>
+      <path value="$PROJECT_DIR$/naujas/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/naujas/vendor/composer" />
+      <path value="$PROJECT_DIR$/naujas/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/naujas/vendor/phenx/php-font-lib" />
+      <path value="$PROJECT_DIR$/naujas/vendor/phenx/php-svg-lib" />
+    </include_path>
+  </component>
+  <component name="ProjectId" id="26KsC6Q1dUK6ojjnrsv3jwJJXAJ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c6c35b84-a856-48a6-b2f5-6aa00cd8036f" name="Changes" comment="" />
+      <created>1647183484770</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1647183484770</updated>
+      <workItem from="1647183486430" duration="363000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

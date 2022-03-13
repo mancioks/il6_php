@@ -2,11 +2,14 @@
 <project version="4">
   <component name="PhpIncludePathManager">
     <include_path>
+      <path value="$PROJECT_DIR$/naujas/vendor/sabberworm/php-css-parser" />
+      <path value="$PROJECT_DIR$/naujas/vendor/composer" />
+      <path value="$PROJECT_DIR$/naujas/vendor/dompdf/dompdf" />
       <path value="$PROJECT_DIR$/naujas/vendor/phenx/php-font-lib" />
       <path value="$PROJECT_DIR$/naujas/vendor/phenx/php-svg-lib" />
-      <path value="$PROJECT_DIR$/naujas/vendor/dompdf/dompdf" />
-      <path value="$PROJECT_DIR$/naujas/vendor/composer" />
-      <path value="$PROJECT_DIR$/naujas/vendor/sabberworm/php-css-parser" />
     </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="8.0">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
 </project>
